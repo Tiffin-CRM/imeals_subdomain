@@ -28,7 +28,7 @@
 
             <div class="page_info">
                 <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
-                <h2>Login/Signup Now</h2>
+                <h2 id="title">Login/Signup Now</h2>
                 <span>Welcome to Mom's Canteen</span>
                 <span>Enter your Phone number to login/signup</span>
             </div>
@@ -36,7 +36,6 @@
         <section class="full_section">
             <div class="form_container">
                 <div id="signup_form">
-
                     <div class="input_field_container">
                         <label for="phone">Phone Number</label>
                         <input type="number" name="phone" id="phoneNumber" placeholder="Enter Your Phone Number here"
@@ -54,8 +53,7 @@
                             <label for="otp">OTP</label>
                             <input type="number" name="otp" id="otpInput" placeholder="Enter 4 Digit OTP here"
                                 min="1000" max="9999" maxlength="4" class="input_styling" required>
-                            <span class="input_desc" id="resultMessage" class="hideit response">Without Country
-                                Code</span>
+                            <span class="input_desc" id="resultMessage" class="hideit response">OTP Sent</span>
                             <small id="otp_error" class="error_message"></small>
                         </div>
                         <div class="input_field_container">
@@ -80,6 +78,7 @@
             </div>
         </section>
     </main>
+    <span id="userInfo">Response Here</span>
     <div id="overlay" class="overlay">
         <div class="overlay-content page_info">
             <dotlottie-player id="lottiePlayer"
@@ -93,6 +92,7 @@
             <span id="closeOverlay">Close</span>
         </div>
     </div>
+
 </body>
 
 <script>
@@ -227,9 +227,9 @@
                         let htmlContent = `<p>${JSON.stringify(data.data, null, 2)}</p>
   `;
                         // Inject the HTML content into the userInfo div
-                        // document.getElementById(
-                        //   "userInfo"
-                        // ).innerHTML = `<pre>${htmlContent}</pre>`;
+                        document.getElementById(
+                            "userInfo"
+                        ).innerHTML = `<pre>${htmlContent}</pre>`;
                         // Store data in localStorage
                         localStorage.setItem("userInfoData", JSON.stringify(data.data));
                         page_loading(false);
@@ -238,25 +238,25 @@
                     } else {
                         // Display error message
                         retryRequest(retryCount + 1); // Call retryRequest
-                        // document.getElementById(
-                        //   "response"
-                        // ).innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
+                        document.getElementById(
+                            "response"
+                        ).innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
                     }
                 })
 
                 .catch((error) => {
                     console.error("Fetch error:", error);
-                    //   document.getElementById(
-                    //     "userInfo"
-                    //   ).innerHTML = `<p style="color: red;">Error: ${error}</p>`;
+                    document.getElementById(
+                        "userInfo"
+                    ).innerHTML = `<p style="color: red;">Error: ${error}</p>`;
                 });
             page_loading(false);
         } else {
             // Display an error if truecaller_request_id is empty
-            //   document.getElementById(
-            //     "userInfo"
-            //   ).innerHTML = `<p style="color: red;">Please enter a Request ID.</p>`;
-            //   page_loading(false);
+            document.getElementById(
+                "userInfo"
+            ).innerHTML = `<p style="color: red;">Please enter a Request ID.</p>`;
+            page_loading(false);
         }
     }
     function retryRequest(attempt) {
@@ -350,6 +350,16 @@
         document.body.classList.add("has-top-bar");
     }
 
+</script>
+<script>
+    document.getElementById("title").addEventListener("click", function (event) {
+        document.body.classList.add('noscroll'); // Prevent background scrolling
+        document.getElementById("overlay").style.display = "flex"; // Show the overlay
+    });
+    document.getElementById("closeOverlay").addEventListener("click", function () {
+        document.getElementById("overlay").style.display = "none"; // Hide the overlay
+        document.body.classList.remove('noscroll'); // Prevent background scrolling
+    });
 </script>
 
 </html>
