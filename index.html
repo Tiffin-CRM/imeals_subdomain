@@ -323,7 +323,7 @@
         </section>
     </main>
     <div style="margin: 40px auto;text-align: center;">
-        <span id="request_id" onclick="try_truecaller_login();get_truecaller_response();">Request Id</span> <br>
+        <span id="request_id" onclick="pushed_truecaller();get_truecaller_response();">Request Id</span> <br>
         <span id="userInfo">Response Here</span>
         <p id="show_response" class="response">
 
@@ -529,9 +529,7 @@
 
     // Add event listener to the button
     function get_truecaller_response() {
-        if (!truecaller_request_id) {
-            truecaller_request_id = 1727869390549; // Set global request ID
-        }
+
         if (truecaller_request_id) {
             page_loading(true);
             // Make a POST request to the PHP endpoint to fetch user info
@@ -619,6 +617,8 @@
             if (isAndroid) {
                 try_truecaller_login();
                 pushed_truecaller = true;
+            } else {
+                truecaller_request_id = 1727869390549; // Set global request ID
             }
         }
     }
