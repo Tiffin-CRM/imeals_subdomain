@@ -389,7 +389,7 @@
         var token = localStorage.getItem("token");
         fetch("/php/check_account.php", {
             method: "POST",
-            body: JSON.stringify({ phoneNumber: phoneNumber, token: token }),
+            body: JSON.stringify({ phone: phoneNumber, token: token }),
             headers: {
                 "Content-Type": "application/json",
             },
