@@ -394,6 +394,11 @@
             .then((data) => {
                 console.log(data); // Log the response from the server
                 alert(data.message);
+                if (data.usertype == "existing") {
+                    account_found();
+                } else if (data.usertype == "new") {
+                    account_not_found();
+                }
 
             })
             .catch((error) => console.error("Error:", error));
