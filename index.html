@@ -354,8 +354,8 @@
     function show_bottom_popup(title, desc) {
         document.getElementById("overlay").style.display = "flex"; // Show the overlay
         document.body.classList.add('noscroll'); // Prevent background scrolling
-        overlay_title.innerText = "Checking Info...";
-        overlay_desc.innerText = "Sending your details to account creation bot..."; // Show loading message
+        overlay_title.innerText = title;
+        overlay_desc.innerText = desc; // Show loading message
     }
     function overlay_btn(text, action) {
         const overlay_btn = document.getElementById('overlay_btn');
@@ -370,16 +370,38 @@
     }
 
     function trucaller_got_number() {
-        show_bottom_popup('Getting Your Account..', 'Checking if you have an account with us...');
-        phoneNumber.value = phoneNumber;
+        show_bottom_popup('Getting Your Account Info..', 'Checking if you have an account with us...');
+        check_if_account();
     }
 
+    function account_found() {
+        document.getElementById("overlay").style.display = "none";
+    }
+    function account_not_found() {
+        document.getElementById("overlay").style.display = "none";
+    }
+    function check_if_account() {
+        var phoneNumber = localStorage.getItem("phoneNumber");
+        var token = localStorage.getItem("token");
+        fetch("/php/check_account.php", {
+            method: "POST",
+            body: JSON.stringify({ phoneNumber: phoneNumber, token: token }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data); // Log the response from the server
+                alert(data);
+            })
+            .catch((error) => console.error("Error:", error));
+    }
     function sendOTP() {
         var phoneNumber = document.getElementById("phoneNumber").value;
         document.getElementById("phoneNumber").disabled = true;
         document.getElementById("send_otp").classList.add("hideit");
         document.getElementById("otp_section").classList.remove("hideit");
-
         fetch("/php/send_otp.php", {
             method: "POST",
             body: JSON.stringify({ phoneNumber: phoneNumber }),
@@ -461,9 +483,10 @@
         const ttl = 60000;
         const randomid = Math.floor(Math.random() * 1000000);
         truecaller_request_id = randomid + Date.now(); // Set global request ID
+        truecaller_request_id = 1727869390549; // Set global request ID
         document.getElementById("request_id").innerHTML = truecaller_request_id;
         // Properly formatted URL
-        window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
+        //  window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
         setTimeout(function () {
             if (document.hasFocus()) {
                 // Truecaller app not present on the device and you redirect the user
@@ -497,23 +520,24 @@
                     if (data.status === "ok") {
                         // Display the user info in HTML
                         isSuccess = true;
-
-                        const userInfo = data.data.userInfo;
+                        const userInfo = data.data;
 
                         // Prepare HTML output
-                        let htmlContent = `<p>${JSON.stringify(data.data, null, 2)}</p>
+                        let htmlContent = `<p>${JSON.stringify(userInfo, null, 2)}</p>
   `;
                         // Inject the HTML content into the userInfo div
-                        // document.getElementById(
-                        //     "userInfo"
-                        // ).innerHTML = `<pre>${htmlContent}</pre>`;
+                        document.getElementById(
+                            "userInfo"
+                        ).innerHTML = `<pre>${htmlContent}</pre>`;
                         // Store data in localStorage
-                        localStorage.setItem("userInfoData", JSON.stringify(data.data));
+                        localStorage.setItem("userInfoData", JSON.stringify(userInfo));
+                        localStorage.setItem("token", userInfo.token);
+                        localStorage.setItem("phone", userInfo.phoneNumber);
+                        localStorage.setItem("name", userInfo.fullName);
+                        localStorage.setItem("email", userInfo.email);
+                        document.getElementById("phoneNumber").value = parseInt(userInfo.phoneNumber, 10);
                         page_loading(false);
                         trucaller_got_number();
-                        // window.location.href =
-                        //     "http://imeals.in/?utm_source=truecaller_login";
-
                     } else {
                         // Display error message
                         retryRequest(retryCount + 1); // Call retryRequest
@@ -538,6 +562,7 @@
             page_loading(false);
         }
     }
+
     function retryRequest(attempt) {
         const maxAttempts = 30;
         const interval = attempt <= 20 ? 3000 : attempt <= 25 ? 6000 : 60000;
