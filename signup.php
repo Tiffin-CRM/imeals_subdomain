@@ -26,7 +26,7 @@
                 <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
                 <h2>Start Getting Healthy Meals</h2>
                 <span>Signing Up With <span id="phone_number_span"></span> </span>
-                <span><a href="#" id="login">Change Phone</a></span>
+                <span><a href="/" id="login">Change Phone</a></span>
             </div>
         </section>
         <section class="full_section">
