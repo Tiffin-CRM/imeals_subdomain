@@ -374,7 +374,6 @@
     function account_found() {
         overlay_lottie('https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json')
         show_bottom_popup('Account Found..Loging In', 'We are redirecting you to Login Page.');
-        alert("Account Found");
     }
     function account_not_found() {
         show_bottom_popup('Account Not Found..', 'If You want to create an account with us, click on Create Account.');
@@ -514,7 +513,7 @@
         truecaller_request_id = 1727869390549; // Set global request ID
         document.getElementById("request_id").innerHTML = truecaller_request_id;
         // Properly formatted URL
-        //  window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
+        window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
         setTimeout(function () {
             if (document.hasFocus()) {
                 // Truecaller app not present on the device and you redirect the user
