@@ -375,10 +375,14 @@
     }
 
     function account_found() {
-        document.getElementById("overlay").style.display = "none";
+        overlay_lottie('https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json')
+        show_bottom_popup('Account Found..Loging In', 'We are redirecting you to Login Page.');
+        alert("Account Found");
     }
     function account_not_found() {
-        document.getElementById("overlay").style.display = "none";
+        show_bottom_popup('Account Not Found..', 'If You want to create an account with us, click on Create Account.');
+        alert("Account Found");
+        overlay_btn('Create Account', window.location.href = "signup.php");
     }
     function check_if_account() {
         var phoneNumber = localStorage.getItem("phoneNumber");
@@ -402,6 +406,7 @@
 
             })
             .catch((error) => console.error("Error:", error));
+
     }
     function sendOTP() {
         var phoneNumber = document.getElementById("phoneNumber").value;

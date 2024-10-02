@@ -2,14 +2,15 @@
 // Set response header to JSON
 header('Content-Type: application/json');
 
-// Function to simulate checking if a user exists
-function checkIfUserExists($phone)
+// Simulate checking if a user exists in the database by email or phone
+function checkIfUserExists($email, $phone)
 {
-    // This would typically involve checking the database.
-    // For this example, let's say these phones are existing.
-    $existingUsers = ['9068062563', '656'];
+    // Simulated existing users (in a real scenario, this would be a database query)
+    $existingEmails = ['test@example.com', 'user@domain.com'];
+    $existingPhones = ['+919876543210', '+911234567890'];
 
-    if (in_array($phone, $existingUsers)) {
+    // Check if email or phone exists in the respective arrays
+    if (in_array($email, $existingEmails) || in_array($phone, $existingPhones)) {
         return true;
     }
     return false;
@@ -22,11 +23,12 @@ $input = file_get_contents('php://input');
 $data = json_decode($input, true);
 
 // Ensure data is provided
-if (isset($data['phone'])) {
-    $phone = $data['phone'];
+if (isset($data['email']) || isset($data['phone'])) {
+    $email = isset($data['email']) ? $data['email'] : null;
+    $phone = isset($data['phone']) ? $data['phone'] : null;
 
-    // Check if the user exists
-    if (checkIfUserExists($phone)) {
+    // Check if the user exists using email or phone
+    if (checkIfUserExists($email, $phone)) {
         $response = [
             'usertype' => 'existing',
             'message' => 'User is already registered.'
@@ -38,10 +40,10 @@ if (isset($data['phone'])) {
         ];
     }
 } else {
-    // Handle missing phone in the request
+    // Handle missing email or phone in the request
     $response = [
         'error' => true,
-        'message' => 'No phone provided.'
+        'message' => 'No email or phone provided.'
     ];
 }
 
