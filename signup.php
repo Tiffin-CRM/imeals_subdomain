@@ -38,10 +38,10 @@
                         <small id="name_error" class="error_message"></small>
 
                     </div>
-                    <div class="input_field_container">
+                    <div class="input_field_container" style="display: none">
                         <label for="phone">Phone Number</label>
-                        <input type="hidden" name="phone" id="phone" placeholder="Enter Your Phone Number here"
-                            value=9068062563>
+                        <input type="number" name="phone" id="phone" placeholder="Enter Your Phone Number here"
+                            value=9068062563 readonly>
                         <span class="input_desc">Without Country Code</span>
                         <small id="phone_error" class="error_message"></small>
                     </div>
