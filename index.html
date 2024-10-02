@@ -191,7 +191,10 @@
             <div class="form_container">
                 <div id="signup_form">
                     <div class="input_field_container">
-                        <label for="phone">Phone Number</label>
+                        <label for="phone" class="r-flex ali-c gap-1 jut-sb">
+                            <span>Phone Number (+91)</span>
+                            <span>Change Country</span>
+                        </label>
                         <input type="number" name="phone" id="phoneNumber" placeholder="Enter Your Phone Number here"
                             value="9253029002" onclick="truecaller_push();" onchange="check_number_format();" required>
                         <span class="input_desc" id="phone_hint">Without Country Code</span>
