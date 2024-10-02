@@ -348,6 +348,27 @@
 </body>
 
 <script>
+    const overlay_desc = document.getElementById('overlay_desc');
+    const overlay_title = document.getElementById('overlay_title');
+
+    function show_bottom_popup(title, desc) {
+        document.getElementById("overlay").style.display = "flex"; // Show the overlay
+        document.body.classList.add('noscroll'); // Prevent background scrolling
+        overlay_title.innerText = "Checking Info...";
+        overlay_desc.innerText = "Sending your details to account creation bot..."; // Show loading message
+    }
+    function overlay_btn(text, action) {
+        const overlay_btn = document.getElementById('overlay_btn');
+        overlay_btn.innerHTML = text;
+        overlay_btn.onclick = action;
+    }
+
+    function overlay_lottie(url) {
+        const player = document.getElementById('lottiePlayer');
+        const defaultUrl = "https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json";
+        player.load(url || defaultUrl);
+    }
+
 
     function sendOTP() {
         var phoneNumber = document.getElementById("phoneNumber").value;
