@@ -283,8 +283,8 @@
                     <div class="input_field_container">
                         <label for="phone">Phone Number</label>
                         <input type="number" name="phone" id="phoneNumber" placeholder="Enter Your Phone Number here"
-                            value="9253029002" onclick="truecaller_push();" required>
-                        <span class="input_desc">Without Country Code</span>
+                            value="9253029002" onclick="truecaller_push();" onchange="check_number_format();" required>
+                        <span class="input_desc" id="phone_hint">Without Country Code</span>
                         <small id="phone_error" class="error_message"></small>
                     </div>
                     <div class="input_field_container">
@@ -297,7 +297,7 @@
                             <label for="otp">OTP</label>
                             <input type="number" name="otp" id="otpInput" placeholder="Enter 4 Digit OTP here"
                                 min="1000" max="9999" maxlength="4" required>
-                            <span class="input_desc" id="resultMessage" class="hideit response">OTP Sent</span>
+                            <span class="input_desc" id="resultMessage" class="hideit response"></span>
                             <small id="otp_error" class="error_message"></small>
                         </div>
                         <div class="input_field_container">
@@ -426,9 +426,12 @@
 
     function sendOTP() {
         var phoneNumber = document.getElementById("phoneNumber").value;
+        document.getElementById("phone_hint").style.display = "initial";
+        document.getElementById("phone_hint").innerHTML = "Sending OTP";
         document.getElementById("phoneNumber").disabled = true;
         document.getElementById("send_otp").classList.add("hideit");
         document.getElementById("otp_section").classList.remove("hideit");
+
         fetch("https://momscanteen.imeals.in/php/send_otp.php", {
             method: "POST",
             body: JSON.stringify({ phoneNumber: phoneNumber }),
@@ -438,18 +441,28 @@
         })
             .then((response) => response.json())
             .then((data) => {
+                document.getElementById("phone_hint").innerHTML = "OTP Sent";
                 console.log(data);
-                alert(data.message); // Log the response from the server
+                // Parse the payload string into a JSON object
+                var payload = JSON.parse(data.payload);
+                // Check if otp exists
+                if (payload && payload.otp) {
+                    alert(payload.otp); // Display the OTP
+                } else {
+                    alert("OTP not found in response");
+                }
             })
             .catch((error) => console.error("Error:", error));
+
     }
+
 
     function getOTP() {
         var enteredOTP = document.getElementById("otpInput").value;
 
         var otpPattern = /^\d{4}$/;
         if (!otpPattern.test(enteredOTP)) {
-            alert("Please enter a valid otp"); // Display error message
+            document.getElementById("otp_error").innerHTML = "Please enter a valid otp";
         } else {
             fetch("https://momscanteen.imeals.in/php/verify_otp.php", {
                 method: "POST",
@@ -472,8 +485,8 @@
                         window.location.href = "user.php";
                     } else {
                         // If OTP verification fails, display an error message to the user
-                        document.getElementById("resultMessage").innerText = data.message;
-                        document.getElementById("resultMessage").classList.remove("hideit");
+                        document.getElementById("otp_error").innerText = data.message;
+                        document.getElementById("otp_error").classList.remove("hideit");
                     }
                 })
                 .catch((error) => console.error("Error:", error));
@@ -484,11 +497,18 @@
         var phoneNumber = document.getElementById("phoneNumber").value;
         // Regular expression to validate phone number format (E.164 format)
         var phoneNumberPattern = /^\d{10}$/;
-
         if (phoneNumberPattern.test(phoneNumber)) {
             sendOTP(); // If phone number format is correct, proceed to send OTP
         } else {
-            alert("Please enter a valid phone number"); // Display error message
+            document.getElementById("phone_error").innerHTML = "Please enter a valid Phone Number";
+            document.getElementById("phone_hint").style.display = "none";
+        }
+    }
+    function check_number_format() {
+        var phoneNumber = document.getElementById("phoneNumber").value;
+        var phoneNumberPattern = /^\d{10}$/;
+        if (phoneNumberPattern.test(phoneNumber)) {
+            document.getElementById("phone_error").style.display = "none";
         }
     }
 </script>
