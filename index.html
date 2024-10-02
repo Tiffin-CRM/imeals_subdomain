@@ -22,36 +22,6 @@
     }
 </style>
 <style>
-    input:focus {
-        outline-color: var(--primary);
-    }
-
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-        /* Optional - removes the margin for Firefox */
-    }
-
-    .input_div label {
-        font-size: 16px;
-        font-weight: 700;
-    }
-
-    .input_div {
-        margin: 20px auto;
-    }
-
-    .button {
-        border-radius: 5px;
-        border: 1px solid #dfdfdf;
-        background: linear-gradient(90deg, #6078FE 0%, #2e069c 100%);
-        color: #f3f3f3;
-        font-weight: 600;
-        font-size: 16px;
-        text-align: center;
-    }
-
     .hideit {
         display: none;
     }
@@ -67,6 +37,30 @@
         font-weight: 500;
     }
 
+    .lottieimg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* height: 30vh; */
+        margin: 20px auto;
+        align-items: center;
+        width: 70%;
+
+    }
+
+    /* Full-page overlay style */
+    .loading-layer {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        justify-content: center;
+        align-items: center;
+    }
 
     /* Loader animation style */
     .loader {
@@ -234,15 +228,14 @@
                 <span>Need Help?</span>
                 <a href="#">Contact Us</a>
             </div>
+            <div style="margin: 40px auto;text-align: center;">
+                <span id="request_id" onclick="pushed_truecaller();get_truecaller_response();">Request Id</span> <br>
+                <span id="userInfo">Response Here</span>
+                <p id="show_response" class="response"> </p>
+            </div>
         </section>
     </main>
-    <div style="margin: 40px auto;text-align: center;">
-        <span id="request_id" onclick="pushed_truecaller();get_truecaller_response();">Request Id</span> <br>
-        <span id="userInfo">Response Here</span>
-        <p id="show_response" class="response">
 
-        </p>
-    </div>
     <div id="overlay" class="overlay">
         <div class="overlay-content page_info">
             <dotlottie-player id="lottiePlayer"
