@@ -482,7 +482,9 @@
                         console.log(
                             "OTP verification successful. Redirecting to logged-in page..."
                         );
-                        window.location.href = "user.php";
+                        // window.location.href = "user.php";
+                        trucaller_got_number();
+
                     } else {
                         // If OTP verification fails, display an error message to the user
                         document.getElementById("otp_error").innerText = data.message;

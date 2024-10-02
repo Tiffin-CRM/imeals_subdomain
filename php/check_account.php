@@ -7,7 +7,7 @@ function checkIfUserExists($email, $phone)
 {
     // Simulated existing users (in a real scenario, this would be a database query)
     $existingEmails = ['test@example.com', 'user@domain.com'];
-    $existingPhones = ['+919876543210', '+911234567890'];
+    $existingPhones = ['9068052561', '94'];
 
     // Check if email or phone exists in the respective arrays
     if (in_array($email, $existingEmails) || in_array($phone, $existingPhones)) {
