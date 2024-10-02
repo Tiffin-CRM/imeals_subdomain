@@ -209,7 +209,7 @@
                             <small id="otp_error" class="error_message"></small>
                         </div>
                         <div class="input_field_container">
-                            <button class="submit_btn r-flex ali-c jut-c gap-1" onclick="getOTP()">Get
+                            <button class="submit_btn r-flex ali-c jut-c gap-1" onclick="getOTP()">Verify
                                 OTP<iconify-icon icon="ooui:arrow-next-ltr" height="14"></iconify-icon></button>
                         </div>
                     </div>
@@ -367,7 +367,6 @@
 
     function getOTP() {
         var enteredOTP = document.getElementById("otpInput").value;
-
         var otpPattern = /^\d{4}$/;
         if (!otpPattern.test(enteredOTP)) {
             document.getElementById("otp_error").innerHTML = "Please enter a valid otp";
@@ -390,6 +389,7 @@
                             "OTP verification successful. Redirecting to logged-in page..."
                         );
                         // window.location.href = "user.php";
+                        document.getElementById("otp_error").display = "none";
                         trucaller_got_number();
 
                     } else {
