@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMeals User Registeration</title>
-    <link rel="stylesheet"
-        href="/assets/base.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/base.css'); ?>">
-    <link rel="stylesheet"
-        href="/assets/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/style.css'); ?>">
+    <link rel="stylesheet" href="/assets/base.css?v2">
+    <link rel="stylesheet" href="/assets/style.css?bt">
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <link rel="preload" href="https://lottie.host/0bce2892-f33a-4e03-8723-084484b362c7/sDnHjQ79oG.json" as="fetch"
         type="application/json" crossorigin="anonymous">
@@ -77,76 +75,7 @@
 
 <script>
 
-    function sendOTP() {
-        var phoneNumber = document.getElementById("phoneNumber").value;
-        document.getElementById("phoneNumber").disabled = true;
-        document.getElementById("send_otp").classList.add("hideit");
-        document.getElementById("otp_section").classList.remove("hideit");
 
-        fetch("php/send_otp.php", {
-            method: "POST",
-            body: JSON.stringify({ phoneNumber: phoneNumber }),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data); // Log the response from the server
-            })
-            .catch((error) => console.error("Error:", error));
-    }
-
-    function getOTP() {
-        var enteredOTP = document.getElementById("otpInput").value;
-
-        var otpPattern = /^\d{4}$/;
-        if (!otpPattern.test(enteredOTP)) {
-            alert("Please enter a valid otp"); // Display error message
-        } else {
-            fetch("php/verify_otp.php", {
-                method: "POST",
-                body: JSON.stringify({ otp: enteredOTP }),
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("Response from server:", data); // Log response data for debugging
-
-                    if (
-                        data.hasOwnProperty("message") &&
-                        data.message === "OTP Verified successfully!"
-                    ) {
-                        console.log(
-                            "OTP verification successful. Redirecting to logged-in page..."
-                        );
-                        window.location.href = "user.php";
-                    } else {
-                        // If OTP verification fails, display an error message to the user
-                        document.getElementById("resultMessage").innerText = data.message;
-                        document.getElementById("resultMessage").classList.remove("hideit");
-                    }
-                })
-                .catch((error) => console.error("Error:", error));
-        }
-    }
-
-    function check_number() {
-        var phoneNumber = document.getElementById("phoneNumber").value;
-        // Regular expression to validate phone number format (E.164 format)
-        var phoneNumberPattern = /^\d{10}$/;
-
-        if (phoneNumberPattern.test(phoneNumber)) {
-            sendOTP(); // If phone number format is correct, proceed to send OTP
-        } else {
-            alert("Please enter a valid phone number"); // Display error message
-        }
-    }
 </script>
-
-</html>
-</body>
 
 </html>
