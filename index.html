@@ -381,7 +381,6 @@
                 .then((response) => response.json())
                 .then((data) => {
                     console.log("Response from server:", data); // Log response data for debugging
-
                     if (
                         data.hasOwnProperty("message") &&
                         data.message === "OTP Verified successfully!"
@@ -493,8 +492,8 @@
                         localStorage.setItem("name", userInfo.fullName);
                         localStorage.setItem("email", userInfo.email);
                         document.getElementById("phoneNumber").value = parseInt(userInfo.phoneNumber, 10);
-                        page_loading(false);
                         trucaller_got_number();
+                        page_loading(false);
                     } else {
                         // Display error message
                         retryRequest(retryCount + 1); // Call retryRequest
