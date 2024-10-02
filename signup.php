@@ -26,7 +26,7 @@
                 <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
                 <h2>Start Getting Healthy Meals</h2>
                 <span>Enter your details to create your account with us</span>
-                <span>Already have an account? <a href="#" id="login">Login</a></span>
+                <span>Signing Up With <span id="phone_number"></span> <a href="#" id="login">Login</a></span>
             </div>
         </section>
         <section class="full_section">
@@ -40,11 +40,10 @@
                     </div>
                     <div class="input_field_container">
                         <label for="phone">Phone Number</label>
-                        <input type="number" name="phone" id="phone" placeholder="Enter Your Phone Number here"
+                        <input type="hidden" name="phone" id="phone" placeholder="Enter Your Phone Number here"
                             value=9068062563>
                         <span class="input_desc">Without Country Code</span>
                         <small id="phone_error" class="error_message"></small>
-
                     </div>
                     <div class="input_field_container">
                         <label for="zoney">Select Zone/Area</label>
@@ -326,8 +325,10 @@
         alert('Thank you for adding your meal plan. You can now enjoy your meal plan. :)')
         window.open('add-plan.php');
     }
-
-
+    var phoneNumber = localStorage.getItem("phone");
+    var token = localStorage.getItem("token");
+    document.getElementById('phone_number').innerHTML = phoneNumber;
+    document.getElementById('phone').value = phoneNumber;
 </script>
 
 </html>
