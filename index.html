@@ -350,17 +350,14 @@
 <script>
     const overlay_desc = document.getElementById('overlay_desc');
     const overlay_title = document.getElementById('overlay_title');
+    const overlay_btn = document.getElementById('overlay_btn');
+
 
     function show_bottom_popup(title, desc) {
         document.getElementById("overlay").style.display = "flex"; // Show the overlay
         document.body.classList.add('noscroll'); // Prevent background scrolling
         overlay_title.innerText = title;
         overlay_desc.innerText = desc; // Show loading message
-    }
-    function overlay_btn(text, action) {
-        const overlay_btn = document.getElementById('overlay_btn');
-        overlay_btn.innerHTML = text;
-        overlay_btn.onclick = action;
     }
 
     function overlay_lottie(url) {
@@ -382,7 +379,6 @@
     function account_not_found() {
         show_bottom_popup('Account Not Found..', 'If You want to create an account with us, click on Create Account.');
         alert("Account Found");
-        const overlay_btn = document.getElementById('overlay_btn');
         overlay_btn.innerHTML = 'Create Account';
         overlay_btn.onclick = window.location.href = "/signup.php";
     }
