@@ -326,9 +326,11 @@
         window.open('add-plan.php');
     }
     var phoneNumber = localStorage.getItem("phone");
-    var token = localStorage.getItem("token");
+    var name = localStorage.getItem("name");
     document.getElementById('phone_number_span').innerHTML = phoneNumber;
     document.getElementById('phone').value = phoneNumber;
+    document.getElementById('name').value = name;
+
 </script>
 
 </html>
