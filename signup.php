@@ -95,7 +95,7 @@
                             <label for="note">Note</label>
                             <input type="text" name="note" id="note" placeholder="Enter note Here (optional)">
                         </div>
-                        <span class="text_desc" onclick="show_this_hide_me(this,'cx_note')">+ Add Note</span>
+                        <span class="input_desc" onclick="show_this_hide_me(this,'cx_note')">+ Add Note</span>
                     </div>
                     <div class="input_field_container">
                         <button type="submit" class="submit_btn r-flex ali-c jut-c gap-1">Signup Now <iconify-icon
