@@ -357,6 +357,7 @@ select {
 input:focus,
 select:focus {
   border-color: #3e51b5;
+  outline-color: var(--primary);
 }
 
 .submit_btn {
