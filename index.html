@@ -458,7 +458,6 @@
 
     // Add event listener to the button
     function get_truecaller_response() {
-
         if (truecaller_request_id) {
             page_loading(true);
             // Make a POST request to the PHP endpoint to fetch user info
@@ -477,14 +476,12 @@
                         // Display the user info in HTML
                         isSuccess = true;
                         const userInfo = data.data;
-
                         // Prepare HTML output
-                        let htmlContent = `<p>${JSON.stringify(userInfo, null, 2)}</p>
-  `;
+                        // let htmlContent = `<p>${JSON.stringify(userInfo, null, 2)}</p>  `;
                         // Inject the HTML content into the userInfo div
-                        document.getElementById(
-                            "userInfo"
-                        ).innerHTML = `<pre>${htmlContent}</pre>`;
+                        // document.getElementById(
+                        //     "userInfo"
+                        // ).innerHTML = `<pre>${htmlContent}</pre>`;
                         // Store data in localStorage
                         localStorage.setItem("userInfoData", JSON.stringify(userInfo));
                         localStorage.setItem("token", userInfo.token);
@@ -547,9 +544,6 @@
                 try_truecaller_login();
                 pushed_truecaller = true;
             }
-            //  else {
-            //     truecaller_request_id = 1727869390549; // Set global request ID
-            // }
         }
     }
 </script>
