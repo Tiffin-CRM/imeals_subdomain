@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+    <link rel="stylesheet"
+        href="assets/base.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . 'assets/base.css'); ?>">
+    <link rel="stylesheet"
+        href="assets/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . 'assets/style.css'); ?>">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+    <style>
+        .menu {
+            position: relative;
+            display: inline;
+            top: 50px;
+            right: 10px;
+            cursor: pointer;
+            align-items: right;
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <style>
+            .full_section {
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                /* Aligns items at the top */
+                padding: 10px;
+            }
+
+            .menu {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+
+            .page_info {
+                flex-grow: 1;
+                /* Allows page_info to take up remaining space */
+                text-align: center;
+            }
+
+            .page_info img {
+                width: 100px;
+            }
+
+            .page_info h2 {
+                margin: 10px 0;
+            }
+
+            .page_info span {
+                display: block;
+            }
+        </style>
+
+        <section class="full_section">
+            <div class="menu">
+                <iconify-icon icon="gg:menu-grid-o" style="color: black" height="30"></iconify-icon>
+            </div>
+            <div class="page_info">
+                <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
+                <h2 id="title">Login/Signup Now</h2>
+                <span>Welcome to Mom's Canteen</span>
+                <span>Enter your Phone number to login/signup</span>
+            </div>
+        </section>
+
+    </main>
+</body>
+
+</html>
