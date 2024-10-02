@@ -91,7 +91,7 @@
                         <small id="diet_pref_error" class="error_message"></small>
                     </div>
                     <div class="input_field_container">
-                        <div id="cx_note">
+                        <div id="cx_note" style="display: none">
                             <label for="note">Note</label>
                             <input type="text" name="note" id="note" placeholder="Enter note Here (optional)">
                         </div>
