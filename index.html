@@ -276,6 +276,7 @@
     function trucaller_got_number() {
         show_bottom_popup('Getting Your Account Info..', 'Checking if you have an account with us...');
         check_if_account();
+        page_loading(false);
     }
 
     function account_found() {
@@ -476,12 +477,6 @@
                         // Display the user info in HTML
                         isSuccess = true;
                         const userInfo = data.data;
-                        // Prepare HTML output
-                        // let htmlContent = `<p>${JSON.stringify(userInfo, null, 2)}</p>  `;
-                        // Inject the HTML content into the userInfo div
-                        // document.getElementById(
-                        //     "userInfo"
-                        // ).innerHTML = `<pre>${htmlContent}</pre>`;
                         // Store data in localStorage
                         localStorage.setItem("userInfoData", JSON.stringify(userInfo));
                         localStorage.setItem("token", userInfo.token);
@@ -490,21 +485,13 @@
                         localStorage.setItem("email", userInfo.email);
                         document.getElementById("phoneNumber").value = parseInt(userInfo.phoneNumber, 10);
                         trucaller_got_number();
-                        page_loading(false);
                     } else {
                         // Display error message
                         retryRequest(retryCount + 1); // Call retryRequest
-                        document.getElementById(
-                            "userInfo"
-                        ).innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
                     }
                 })
-
                 .catch((error) => {
                     console.error("Fetch error:", error);
-                    document.getElementById(
-                        "userInfo"
-                    ).innerHTML = `<p style="color: red;">Error: ${error}</p>`;
                 });
             page_loading(false);
         } else {
