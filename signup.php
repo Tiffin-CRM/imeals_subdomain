@@ -25,8 +25,8 @@
             <div class="page_info">
                 <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
                 <h2>Start Getting Healthy Meals</h2>
-                <span>Enter your details to create your account with us</span>
-                <span>Signing Up With <span id="phone_number"></span> <a href="#" id="login">Change Phone</a></span>
+                <span>Signing Up With <span id="phone_number_span"></span> </span>
+                <span><a href="#" id="login">Change Phone</a></span>
             </div>
         </section>
         <section class="full_section">
@@ -327,7 +327,7 @@
     }
     var phoneNumber = localStorage.getItem("phone");
     var token = localStorage.getItem("token");
-    document.getElementById('phone_number').innerHTML = phoneNumber;
+    document.getElementById('phone_number_span').innerHTML = phoneNumber;
     document.getElementById('phone').value = phoneNumber;
 </script>
 
