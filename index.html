@@ -378,11 +378,12 @@
     }
     function account_not_found() {
         show_bottom_popup('Account Not Found..', 'If You want to create an account with us, click on Create Account.');
-        alert("Account Found");
+        alert("Account Not Found");
         overlay_btn.innerHTML = 'Create Account';
         overlay_btn.onclick = function () {
             window.location.href = "/signup.php";
         };
+        overlay_btn.style.display = 'block';
     }
     function check_if_account() {
         var phoneNumber = localStorage.getItem("phone");
