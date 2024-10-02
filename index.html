@@ -510,7 +510,6 @@
         const ttl = 60000;
         const randomid = Math.floor(Math.random() * 1000000);
         truecaller_request_id = randomid + Date.now(); // Set global request ID
-        truecaller_request_id = 1727869390549; // Set global request ID
         document.getElementById("request_id").innerHTML = truecaller_request_id;
         // Properly formatted URL
         window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
@@ -530,6 +529,9 @@
 
     // Add event listener to the button
     function get_truecaller_response() {
+        if (!truecaller_request_id) {
+            truecaller_request_id = 1727869390549; // Set global request ID
+        }
         if (truecaller_request_id) {
             page_loading(true);
             // Make a POST request to the PHP endpoint to fetch user info
