@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMeals User Registeration</title>
-    <link rel="stylesheet" href="base.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . 'base.css'); ?>">
-    <link rel="stylesheet" href="style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . 'style.css'); ?>">
+    <link rel="stylesheet"
+        href="/assets/base.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/base.css'); ?>">
+    <link rel="stylesheet"
+        href="/assets/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/style.css'); ?>">
     <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
     <link rel="preload" href="https://lottie.host/0bce2892-f33a-4e03-8723-084484b362c7/sDnHjQ79oG.json" as="fetch"
         type="application/json" crossorigin="anonymous">
@@ -81,7 +83,7 @@
         document.getElementById("send_otp").classList.add("hideit");
         document.getElementById("otp_section").classList.remove("hideit");
 
-        fetch("send_otp.php", {
+        fetch("php/send_otp.php", {
             method: "POST",
             body: JSON.stringify({ phoneNumber: phoneNumber }),
             headers: {
@@ -102,7 +104,7 @@
         if (!otpPattern.test(enteredOTP)) {
             alert("Please enter a valid otp"); // Display error message
         } else {
-            fetch("verify_otp.php", {
+            fetch("php/verify_otp.php", {
                 method: "POST",
                 body: JSON.stringify({ otp: enteredOTP }),
                 headers: {
