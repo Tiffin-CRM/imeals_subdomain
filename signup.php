@@ -91,6 +91,13 @@
                         <small id="diet_pref_error" class="error_message"></small>
                     </div>
                     <div class="input_field_container">
+                        <div id="cx_note">
+                            <label for="note">Note</label>
+                            <input type="text" name="note" id="note" placeholder="Enter note Here (optional)">
+                        </div>
+                        <span class="text_desc" onclick="show_this_hide_me(this,'cx_note')">+ Add Note</span>
+                    </div>
+                    <div class="input_field_container">
                         <button type="submit" class="submit_btn r-flex ali-c jut-c gap-1">Signup Now <iconify-icon
                                 icon="ooui:arrow-next-ltr" height="14"></iconify-icon></button>
                     </div>
