@@ -369,6 +369,9 @@
         player.load(url || defaultUrl);
     }
 
+    function trucaller_got_number() {
+        show_bottom_popup('Getting Your Account..', 'Checking if you have an account with us...');
+    }
 
     function sendOTP() {
         var phoneNumber = document.getElementById("phoneNumber").value;
@@ -500,14 +503,16 @@
                         let htmlContent = `<p>${JSON.stringify(data.data, null, 2)}</p>
   `;
                         // Inject the HTML content into the userInfo div
-                        document.getElementById(
-                            "userInfo"
-                        ).innerHTML = `<pre>${htmlContent}</pre>`;
+                        // document.getElementById(
+                        //     "userInfo"
+                        // ).innerHTML = `<pre>${htmlContent}</pre>`;
                         // Store data in localStorage
                         localStorage.setItem("userInfoData", JSON.stringify(data.data));
                         page_loading(false);
+                        trucaller_got_number();
                         // window.location.href =
                         //     "http://imeals.in/?utm_source=truecaller_login";
+
                     } else {
                         // Display error message
                         retryRequest(retryCount + 1); // Call retryRequest
