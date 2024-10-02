@@ -323,7 +323,7 @@
         </section>
     </main>
     <div style="margin: 40px auto;text-align: center;">
-        <span id="request_id">Request Id</span> <br>
+        <span id="request_id" onclick="get_truecaller_response()">Request Id</span> <br>
         <span id="userInfo">Response Here</span>
         <p id="show_response" class="response">
 
@@ -436,6 +436,7 @@
         const ttl = 60000;
         const randomid = Math.floor(Math.random() * 1000000);
         truecaller_request_id = randomid + Date.now(); // Set global request ID
+        truecaller_request_id = '1727865583969';
         document.getElementById("request_id").innerHTML = truecaller_request_id;
         // Properly formatted URL
         window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
@@ -459,7 +460,7 @@
             page_loading(true);
             // Make a POST request to the PHP endpoint to fetch user info
             fetch("https://imeals.in/truecaller/get_response.php", {
-                method: "POST",
+                method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
