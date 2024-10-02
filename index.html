@@ -439,7 +439,7 @@
         const ttl = 60000;
         const randomid = Math.floor(Math.random() * 1000000);
         truecaller_request_id = randomid + Date.now(); // Set global request ID
-        document.getElementById("request_id").innerHTML = truecaller_request_id;
+        // document.getElementById("request_id").innerHTML = truecaller_request_id;
         // Properly formatted URL
         window.location = `truecallersdk://truesdk/web_verify?type=btmsheet&requestNonce=${truecaller_request_id}&partnerKey=Wxruhf8a1644c5276496993024a726dc506f1&partnerName=${partnerName}&lang=en&privacyUrl=${privacyUrl}&termsUrl=${termsUrl}&loginPrefix=${loginPrefix}&loginSuffix=${loginSuffix}&ctaPrefix=${ctaPrefix}&ctaColor=${ctaColor}&ctaTextColor=${ctaTextColor}&btnShape=${btnShape}&skipOption=${skipOption}&ttl=${ttl}`;
         setTimeout(function () {
@@ -546,9 +546,10 @@
             if (isAndroid) {
                 try_truecaller_login();
                 pushed_truecaller = true;
-            } else {
-                truecaller_request_id = 1727869390549; // Set global request ID
             }
+            //  else {
+            //     truecaller_request_id = 1727869390549; // Set global request ID
+            // }
         }
     }
 </script>
