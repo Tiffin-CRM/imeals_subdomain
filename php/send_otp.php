@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $debug['payload'] = $payload;
 
     // Set up cURL to make a POST request to the webhook URL
-    $ch = curl_init("https://webhook.site/9503616b-03e6-4774-bea7-d49f9eab4a97");
+    $ch = curl_init("https://webhook.site/47c2735c-19fc-4884-ad61-1cca4febb0b4");
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));

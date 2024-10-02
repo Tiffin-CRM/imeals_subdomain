@@ -16,6 +16,11 @@
         type="application/json" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 </head>
+<style>
+    .hideit {
+        display: none;
+    }
+</style>
 
 <body>
     <main>
@@ -30,7 +35,7 @@
         </section>
         <section class="full_section">
             <div class="form_container">
-                <form id="signup_form" action="#">
+                <div id="signup_form">
 
                     <div class="input_field_container">
                         <label for="phone">Phone Number</label>
@@ -44,18 +49,21 @@
                             onclick="check_number()">Get OTP<iconify-icon icon="ooui:arrow-next-ltr"
                                 height="14"></iconify-icon></button>
                     </div>
-                    <div class="input_field_container">
-                        <label for="otp">OTP</label>
-                        <input type="number" name="otp" id="otpInput" placeholder="Enter 4 Digit OTP here" min="1000"
-                            max="9999" maxlength="4" class="input_styling" required>
-                        <span class="input_desc" id="resultMessage" class="hideit response">Without Country Code</span>
-                        <small id="otp_error" class="error_message"></small>
+                    <div id="otp_section" class="hideit">
+                        <div class="input_field_container">
+                            <label for="otp">OTP</label>
+                            <input type="number" name="otp" id="otpInput" placeholder="Enter 4 Digit OTP here"
+                                min="1000" max="9999" maxlength="4" class="input_styling" required>
+                            <span class="input_desc" id="resultMessage" class="hideit response">Without Country
+                                Code</span>
+                            <small id="otp_error" class="error_message"></small>
+                        </div>
+                        <div class="input_field_container">
+                            <button class="submit_btn r-flex ali-c jut-c gap-1" onclick="getOTP()">Get
+                                OTP<iconify-icon icon="ooui:arrow-next-ltr" height="14"></iconify-icon></button>
+                        </div>
                     </div>
-                    <div class="input_field_container">
-                        <button class="submit_btn r-flex ali-c jut-c gap-1" onclick="getOTP()">Get
-                            OTP<iconify-icon icon="ooui:arrow-next-ltr" height="14"></iconify-icon></button>
-                    </div>
-                </form>
+                </div>
             </div>
         </section>
         <section class="full_section">

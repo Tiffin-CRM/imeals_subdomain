@@ -12,7 +12,7 @@ header('Content-Type: application/json');
 // Function to send a POST request to the webhook
 function sendToWebhook($data)
 {
-    $url = "https://webhook.site/f34a4bef-3404-43af-a2c9-9d55b57e0160";
+    $url = "https://webhook.site/47c2735c-19fc-4884-ad61-1cca4febb0b4";
 
     // Use curl to send data
     $ch = curl_init($url);
