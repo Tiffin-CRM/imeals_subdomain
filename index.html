@@ -236,13 +236,13 @@
                         // Store data in localStorage
                         localStorage.setItem("userInfoData", JSON.stringify(data.data));
                         page_loading(false);
-                        window.location.href =
-                            "http://imeals.in/?utm_source=truecaller_login";
+                        // window.location.href =
+                        //     "http://imeals.in/?utm_source=truecaller_login";
                     } else {
                         // Display error message
                         retryRequest(retryCount + 1); // Call retryRequest
                         document.getElementById(
-                            "response"
+                            "userInfo"
                         ).innerHTML = `<p style="color: red;">Error: ${data.message}</p>`;
                     }
                 })
