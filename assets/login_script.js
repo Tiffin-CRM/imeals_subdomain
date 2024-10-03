@@ -3,6 +3,8 @@ function trucaller_got_number() {
     "Getting Your Account Info..",
     "Checking if you have an account with us..."
   );
+  phoneNumber = document.getElementById("phoneNumber").value;
+  localStorage.setItem("phone", phoneNumber);
   check_if_account();
   page_loading(false);
 }

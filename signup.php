@@ -332,11 +332,19 @@
         alert('Thank you for adding your meal plan. You can now enjoy your meal plan. :)')
         window.open('add-plan.php');
     }
+
     var phoneNumber = localStorage.getItem("phone");
     var name = localStorage.getItem("name");
-    document.getElementById('phone_number_span').innerHTML = phoneNumber;
-    document.getElementById('phone').value = phoneNumber;
-    document.getElementById('name').value = name;
+
+    if (phoneNumber) {
+        document.getElementById('phone_number_span').innerHTML = phoneNumber;
+        document.getElementById('phone').value = phoneNumber;
+    } else {
+        alert("No phone number found. Please Verify it on Login/Signup Page");
+    }
+    if (name) {
+        document.getElementById('name').value = name;
+    }
 
 </script>
 
