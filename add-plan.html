@@ -17,6 +17,72 @@
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
 </head>
 
+
+<style>
+    .plans {
+        width: 100%;
+        user-select: none;
+        align-items: center;
+    }
+
+
+
+    .plan_info {
+        background-color: transparent;
+        color: var(--secondary);
+        font-weight: 500;
+        border: 1px solid var(--light);
+        padding: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .plan_info img {
+        max-width: 70px;
+    }
+
+    .plans input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+
+    }
+
+    /* Target the div and change its background when checkbox is checked */
+    .plans input[type="checkbox"]:checked~.plan_info {
+        border: 1px solid var(--primary);
+        /* color: var(--primary); */
+        background-color: #dce4ff;
+
+    }
+
+    /* When the checkbox is checked, change the whole div's color */
+    .plans input[type="checkbox"]:checked~label {
+        /* color: var(--primary); */
+    }
+
+    .plans input[type="checkbox"]:checked~.plan_info span {
+        background: transparent;
+    }
+
+
+
+    /* Ensure clicking on div toggles checkbox */
+    .plans input[type="checkbox"] {
+        position: block;
+        left: 20px;
+        display: none;
+    }
+
+    fieldset {
+        border: none;
+        ;
+    }
+</style>
+
 <body>
     <main>
         <section class="full_section">
