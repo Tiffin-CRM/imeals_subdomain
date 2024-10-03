@@ -122,7 +122,7 @@
         </section>
         <section class="full_section">
             <div class="form_container">
-                <form id="signup_form" action="#">
+                <form id="signup_form" action="#" onsubmit="submitForm(event)">
 
                     <div class="input_field_container">
                         <label for="filter">Meal Plan Types</label>
@@ -288,6 +288,53 @@
         window.open(whatsappLink, '_blank');
     }
 
+</script>
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const selectedPlans = [];
+        const mealPlanCheckboxes = document.querySelectorAll('input[name="meal_plan"]:checked');
+
+        mealPlanCheckboxes.forEach(checkbox => {
+            selectedPlans.push(checkbox.value);
+        });
+
+        // Convert selected plans to JSON format
+        const data = JSON.stringify({
+            mealPlans: selectedPlans
+        });
+
+        // Show loading bar
+        document.getElementById("loading_bar").style.display = "block";
+
+        fetch('https://momscanteen.imeals.in/php/add_plans.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data
+        })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                // Hide loading bar
+                document.getElementById("loading_bar").style.display = "none";
+
+                // Show success alert with response
+                alert("Response: " + JSON.stringify(data));
+            })
+            .catch(error => {
+                // Hide loading bar
+                document.getElementById("loading_bar").style.display = "none";
+
+                // Show error alert
+                alert("Error: " + error.message);
+            })
+            .finally(() => {
+                // Alert that the request was sent
+                alert("Request sent!");
+            });
+    }
 </script>
 
 </html>
