@@ -336,17 +336,16 @@
     var phoneNumber = localStorage.getItem("phone");
     var name = localStorage.getItem("name");
 
-    if (phoneNumber) {
+    if (phoneNumber !== null) {
         document.getElementById('phone_number_span').innerHTML = phoneNumber;
         document.getElementById('phone').value = phoneNumber;
     } else {
         alert("No phone number found. Please Verify it on Login/Signup Page");
         window.open('/', '_self');
     }
-    if (name) {
+    if (name !== null) {  // Check if the value is not null
         document.getElementById('name').value = name;
     }
-
 </script>
 
 </html>
