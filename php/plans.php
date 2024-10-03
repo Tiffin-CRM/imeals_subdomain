@@ -1,4 +1,7 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 // Example: Fetching plans from a database
 $meal_plans = [
     ["id" => "plan1", "type" => "veg", "name" => "Plan 1", "description" => "4 Roti, Sabji 1, Sabji 2", "price" => 100, "meal" => "Daily Lunch"],
