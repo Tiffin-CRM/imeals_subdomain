@@ -81,6 +81,32 @@
         border: none;
         ;
     }
+
+    /* Loading Bar */
+    #loading_bar {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid var(--primary);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 
 <body>
@@ -105,7 +131,6 @@
                             <option value="veg">Veg</option>
                             <option value="nonveg">Non Veg</option>
                         </select>
-                        <small id="zone_error" class="error_message"></small>
                     </div>
 
                     <div class="input_field_container">
@@ -122,8 +147,10 @@
                         You can Request Edits Via Contacting us on
                         <span style="text-decoration: underline;">Whatsapp</span>
                     </span>
-                    <small id="location_error" class="error_message"></small>
-
+                    <!-- Loading Bar -->
+                    <div id="loading_bar" style="display: none;">
+                        <div class="loader"></div>
+                    </div>
                     <div class="input_field_container">
                         <button type="submit" class="submit_btn r-flex ali-c jut-c gap-1">Add Selected Meal Plans
                             <iconify-icon icon="ooui:arrow-next-ltr" height="14"></iconify-icon>
@@ -162,56 +189,79 @@
 </body>
 
 <script>
-    // Fetch meal plans from server
-    function fetchMealPlans() {
-        fetch('https://momscanteen.imeals.in/php/plans.php')
-            .then(response => response.json())
-            .then(data => {
-                displayMealPlans(data);
-            })
-            .catch(error => {
-                console.error('Error fetching meal plans:', error);
-            });
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const plansWrapper = document.getElementById('plans_wrapper');
+        const zoneSelect = document.getElementById('zone');
+        const loadingBar = document.getElementById('loading_bar');
 
-    // Display meal plans dynamically
-    function displayMealPlans(mealPlans) {
-        const container = document.getElementById('meal_plans_container');
-        container.innerHTML = ''; // Clear existing plans
+        // Function to display loading bar
+        function showLoading() {
+            loadingBar.style.display = 'flex';
+        }
 
-        // Get selected filter (veg, nonveg, all)
-        const selectedFilter = document.getElementById('zone').value;
+        // Function to hide loading bar
+        function hideLoading() {
+            loadingBar.style.display = 'none';
+        }
 
-        // Filter the plans based on selected option
-        const filteredPlans = mealPlans.filter(plan => selectedFilter === 'all' || plan.type === selectedFilter);
+        // Function to fetch plans
+        function fetchPlans() {
+            showLoading(); // Show loading bar before fetching data
+            fetch('https://momscanteen.imeals.in/php/plans.php')
+                .then(response => response.json())
+                .then(data => {
+                    hideLoading(); // Hide loading bar once data is fetched
+                    renderPlans(data);
+                })
+                .catch(error => {
+                    hideLoading(); // Hide loading if an error occurs
+                    console.error('Error fetching plans:', error);
+                });
+        }
 
-        // Loop through and display filtered plans
-        filteredPlans.forEach(plan => {
-            const planHTML = `
-                <div class="plans r-flex ali-c jut-c gap-1" id="plans">
+        // Function to render plans
+        function renderPlans(plans) {
+            const selectedType = zoneSelect.value;
+            plansWrapper.innerHTML = ''; // Clear existing plans
+
+            const filteredPlans = selectedType === 'all'
+                ? plans
+                : plans.filter(plan => plan.type === selectedType);
+
+            if (filteredPlans.length === 0) {
+                plansWrapper.innerHTML = '<p>No plans available.</p>';
+                return;
+            }
+
+            filteredPlans.forEach(plan => {
+                const planHTML = `
+                <div class="plans r-flex ali-c jut-c gap-1">
                     <input class="plan_checkbox" type="checkbox" id="${plan.id}" name="meal_plans" value="${plan.id}">
                     <label for="${plan.id}" class="plan_info r-flex ali-c jut-sb gap-1">
                         <div class="c-flex gap-05">
                             <span class="w6">${plan.name}</span>
-                            <span>${plan.meal}</span>
                             <span>${plan.description}</span>
-                            <span class="w4">This is a plan Description</span>
+                            <span class="w4">${plan.details}</span>
                         </div>
                         <div class="c-flex ali-c gap-1">
-                            <img src="https://cdn-icons-png.flaticon.com/512/2771/2771401.png" alt="">
+                            <img src="${plan.image}" alt="">
                             <span>₹${plan.price}/Meal</span>
                         </div>
                     </label>
                 </div>`;
-            container.innerHTML += planHTML;
+                plansWrapper.insertAdjacentHTML('beforeend', planHTML);
+            });
+        }
+
+        // Event listener for meal plan type filter
+        zoneSelect.addEventListener('change', function () {
+            fetchPlans();
         });
-    }
 
-    // Add event listener for filter change
-    document.getElementById('zone').addEventListener('change', fetchMealPlans);
+        // Initial fetch on page load
+        fetchPlans();
+    });
 
-    // Fetch meal plans on page load
-    fetchMealPlans();
 </script>
 <script>
     document.getElementById("closeOverlay").addEventListener("click", function () {
