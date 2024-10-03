@@ -29,18 +29,18 @@ function account_not_found() {
 }
 function check_if_account() {
   // var phoneNumber = localStorage.getItem("phone");
-  var phoneNumber = document.getElementById("phoneNumber").value;
+  var phoneNumbervalue = document.getElementById("phoneNumber").value;
   // var token = localStorage.getItem("token");
 
   // Ensure phoneNumber and token are available
-  if (!phoneNumber) {
-    alert("Phone number or token is missing.");
+  if (!phoneNumbervalue) {
+    alert("Phone number is missing.");
     return;
   }
 
   fetch("/php/check_account.php", {
     method: "POST",
-    body: JSON.stringify({ phone: phoneNumber }),
+    body: JSON.stringify({ phone: phoneNumbervalue }),
     headers: {
       "Content-Type": "application/json",
     },
