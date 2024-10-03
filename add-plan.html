@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMeals User Registeration</title>
+    <link rel="stylesheet"
+        href="/assets/base.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/base.css'); ?>">
+    <link rel="stylesheet"
+        href="/assets/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/style.css'); ?>">
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <link rel="preload" href="https://lottie.host/0bce2892-f33a-4e03-8723-084484b362c7/sDnHjQ79oG.json" as="fetch"
+        type="application/json" crossorigin="anonymous">
+    <link rel="preload" href="https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json" as="fetch"
+        type="application/json" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+</head>
+
+<style>
+    .plans {
+        width: 100%;
+        user-select: none;
+        align-items: center;
+    }
+
+    .plan_info {
+        background-color: transparent;
+        color: var(--secondary);
+        font-weight: 500;
+        border: 1px solid var(--light);
+        padding: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .plan_info img {
+        max-width: 70px;
+    }
+
+    .plans input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .plans input[type="checkbox"]:checked~.plan_info {
+        border: 1px solid var(--primary);
+        background-color: #dce4ff;
+    }
+
+    fieldset {
+        border: none;
+    }
+</style>
+
+<body>
+    <main>
+        <section class="full_section">
+
+            <div class="page_info">
+                <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
+                <h2>Select Your Meal Plans</h2>
+                <span>Hello Shubham,</span>
+                <span>Please Add Meal Plan to Your Account</span>
+            </div>
+        </section>
+        <section class="full_section">
+            <div class="form_container">
+                <form id="signup_form" action="#">
+
+                    <div class="input_field_container">
+                        <label for="zoney">Meal Plan Types</label>
+                        <select name="zone" id="zone">
+                            <option value="all" selected>All</option>
+                            <option value="veg">Veg</option>
+                            <option value="nonveg">Non Veg</option>
+                        </select>
+                        <small id="zone_error" class="error_message"></small>
+                    </div>
+
+                    <div class="input_field_container">
+                        <label for="meal_plans">Meal Plans</label>
+                        <br>
+                        <fieldset>
+                            <div class="c-flex ali-c gap-2" id="meal_plans_container">
+                                <!-- Meal Plans will be inserted here dynamically -->
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <span class="input_desc pointer" onclick="contact_support()" id="manual_entry_desc">
+                        You can Request Edits Via Contacting us on
+                        <span style="text-decoration: underline;">Whatsapp</span>
+                    </span>
+                    <small id="location_error" class="error_message"></small>
+
+                    <div class="input_field_container">
+                        <button type="submit" class="submit_btn r-flex ali-c jut-c gap-1">Add Selected Meal Plans
+                            <iconify-icon icon="ooui:arrow-next-ltr" height="14"></iconify-icon>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="full_section">
+            <div class="extra_btn_container">
+                <div class="c-flex ali-c">
+                    <hr style="width: 100%;">
+                    <span class="or_text">OR</span>
+                </div>
+                <button class="secondary_btn">Check Our Plans</button>
+            </div>
+            <div class="need_help_container">
+                <span>Need Help?</span>
+                <a href="#">Contact Us</a>
+            </div>
+        </section>
+    </main>
+    <div id="overlay" class="overlay">
+        <div class="overlay-content page_info">
+            <dotlottie-player id="lottiePlayer"
+                src="https://lottie.host/0bce2892-f33a-4e03-8723-084484b362c7/sDnHjQ79oG.json" background="transparent"
+                speed="1" style="width: 300px; height: 200px;" speed="2" loop autoplay></dotlottie-player>
+            <h3 id="overlay_title">Signing Up...</h3>
+            <br>
+            <span id="overlay_desc">Your Details are being checked.. </span>
+            <button id="overlay_btn" class="submit_btn" style="display: none;">Add Yor Meal Plan Now</button>
+            <!-- <button onclick="changeLottie()">Change Lottie</button> -->
+            <span id="closeOverlay">Close</span>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Fetch meal plans from server
+    function fetchMealPlans() {
+        fetch('php/plans.php')
+            .then(response => response.json())
+            .then(data => {
+                displayMealPlans(data);
+            })
+            .catch(error => {
+                console.error('Error fetching meal plans:', error);
+            });
+    }
+
+    // Display meal plans dynamically
+    function displayMealPlans(mealPlans) {
+        const container = document.getElementById('meal_plans_container');
+        container.innerHTML = ''; // Clear existing plans
+
+        // Get selected filter (veg, nonveg, all)
+        const selectedFilter = document.getElementById('zone').value;
+
+        // Filter the plans based on selected option
+        const filteredPlans = mealPlans.filter(plan => selectedFilter === 'all' || plan.type === selectedFilter);
+
+        // Loop through and display filtered plans
+        filteredPlans.forEach(plan => {
+            const planHTML = `
+                <div class="plans r-flex ali-c jut-c gap-1" id="plans">
+                    <input class="plan_checkbox" type="checkbox" id="${plan.id}" name="meal_plans" value="${plan.id}">
+                    <label for="${plan.id}" class="plan_info r-flex ali-c jut-sb gap-1">
+                        <div class="c-flex gap-05">
+                            <span class="w6">${plan.name}</span>
+                            <span>${plan.meal}</span>
+                            <span>${plan.description}</span>
+                            <span class="w4">This is a plan Description</span>
+                        </div>
+                        <div class="c-flex ali-c gap-1">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2771/2771401.png" alt="">
+                            <span>₹${plan.price}/Meal</span>
+                        </div>
+                    </label>
+                </div>`;
+            container.innerHTML += planHTML;
+        });
+    }
+
+    // Add event listener for filter change
+    document.getElementById('zone').addEventListener('change', fetchMealPlans);
+
+    // Fetch meal plans on page load
+    fetchMealPlans();
+</script>
+<script>
+    document.getElementById("closeOverlay").addEventListener("click", function () {
+        document.getElementById("overlay").style.display = "none"; // Hide the overlay
+        document.body.classList.remove('noscroll'); // Prevent background scrolling
+    });
+    // document.getElementById("overlay").style.display = "flex"; // Show the overlay
+    function changeLottie() {
+        const player = document.getElementById('lottiePlayer');
+        player.load("https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json");
+    }
+
+    function contact_support() {
+        const phoneNumber = '9253029002';
+        const message = 'Contact support.';
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappLink, '_blank');
+    }
+
+</script>
+
+</html>
