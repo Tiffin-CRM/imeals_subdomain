@@ -329,7 +329,6 @@
     }
 
     function add_meal_plan() {
-        alert('Thank you for adding your meal plan. You can now enjoy your meal plan. :)')
         window.open('add-plan.php');
     }
 

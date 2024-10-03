@@ -259,6 +259,7 @@ function retryRequest(attempt) {
     }, interval);
   }
 }
+
 function page_loading(isLoading) {
   var loadingLayer = document.getElementById("loadingLayer");
   if (isLoading) {
