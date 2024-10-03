@@ -341,6 +341,7 @@
         document.getElementById('phone').value = phoneNumber;
     } else {
         alert("No phone number found. Please Verify it on Login/Signup Page");
+        window.open('/', '_self');
     }
     if (name) {
         document.getElementById('name').value = name;
