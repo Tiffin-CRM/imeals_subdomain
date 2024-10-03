@@ -92,7 +92,9 @@ function sendOTP() {
       var payload = JSON.parse(data.payload);
       // Check if otp exists
       if (payload && payload.otp) {
-        alert(payload.otp); // Display the OTP
+        // alert(payload.otp); // Display the OTP
+        document.getElementById("phone_hint").innerHTML =
+          "OTP Sent: " + payload.otp;
       } else {
         alert("OTP not found in response");
       }
