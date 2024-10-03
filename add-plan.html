@@ -125,8 +125,8 @@
                 <form id="signup_form" action="#">
 
                     <div class="input_field_container">
-                        <label for="zoney">Meal Plan Types</label>
-                        <select name="zone" id="zone">
+                        <label for="filter">Meal Plan Types</label>
+                        <select name="filter" id="filter">
                             <option value="all" selected>All</option>
                             <option value="veg">Veg</option>
                             <option value="nonveg">Non Veg</option>
@@ -190,8 +190,8 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const plansWrapper = document.getElementById('plans_wrapper');
-        const zoneSelect = document.getElementById('zone');
+        const plansWrapper = document.getElementById('meal_plans_container');
+        const zoneSelect = document.getElementById('filter');
         const loadingBar = document.getElementById('loading_bar');
 
         // Function to display loading bar
@@ -204,12 +204,18 @@
             loadingBar.style.display = 'none';
         }
 
-        // Function to fetch plans
+        // Function to fetch plans with debugging
         function fetchPlans() {
             showLoading(); // Show loading bar before fetching data
             fetch('https://momscanteen.imeals.in/php/plans.php')
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
+                    console.log("Data fetched from server:", data); // Log the data to check
                     hideLoading(); // Hide loading bar once data is fetched
                     renderPlans(data);
                 })
@@ -238,13 +244,14 @@
                 <div class="plans r-flex ali-c jut-c gap-1">
                     <input class="plan_checkbox" type="checkbox" id="${plan.id}" name="meal_plans" value="${plan.id}">
                     <label for="${plan.id}" class="plan_info r-flex ali-c jut-sb gap-1">
-                        <div class="c-flex gap-05">
+                          <div class="c-flex gap-05">
                             <span class="w6">${plan.name}</span>
-                            <span>${plan.description}</span>
-                            <span class="w4">${plan.details}</span>
+                            <span>${plan.frequency}</span>
+                            <span>${plan.item}</span>
+                            <span class="w4">${plan.description}</span>
                         </div>
                         <div class="c-flex ali-c gap-1">
-                            <img src="${plan.image}" alt="">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2771/2771401.pn" alt="">
                             <span>₹${plan.price}/Meal</span>
                         </div>
                     </label>
