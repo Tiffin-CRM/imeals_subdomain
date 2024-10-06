@@ -329,7 +329,7 @@
     }
 
     function add_meal_plan() {
-        window.open('add-plan.php');
+        window.open('add-plan.html');
     }
 
     var phoneNumber = localStorage.getItem("phone");
