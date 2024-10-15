@@ -5,15 +5,31 @@ header('Content-Type: application/json');
 // Simulate checking if a user exists in the database by email or phone
 function checkIfUserExists($email, $phone)
 {
-    // Simulated existing users (in a real scenario, this would be a database query)
-    $existingEmails = ['test@example.com', 'user@domain.com'];
-    $existingPhones = ['9068052561', '94'];
+    // Database connection details
+    $host = 'localhost';
+    $dbname = 'u240376517_tiffin_simul';
+    $username = 'tiffin_simul';
+    $password = '1Alukidukankrenge@';
 
-    // Check if email or phone exists in the respective arrays
-    if (in_array($email, $existingEmails) || in_array($phone, $existingPhones)) {
-        return true;
+    try {
+        // Create a PDO instance
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // Prepare and execute the query
+        $stmt = $pdo->prepare("SELECT * FROM clients WHERE email = :email OR phone = :phone");
+        $stmt->execute(['email' => $email, 'phone' => $phone]);
+
+        // Fetch the result
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Return true if a user is found, false otherwise
+        return $result !== false;
+    } catch (PDOException $e) {
+        // Log the error (in a real-world scenario, use proper error logging)
+        error_log("Database Error: " . $e->getMessage());
+        return false;
     }
-    return false;
 }
 
 // Get the raw POST data (the incoming JSON)

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMeals User Registeration</title>
+    <link rel="stylesheet"
+        href="/assets/base.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/base.css'); ?>">
+    <link rel="stylesheet"
+        href="/assets/style.css?<?php echo filemtime($_SERVER['DOCUMENT_ROOT'] . '/assets/style.css'); ?>">
+    <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+    <link rel="preload" href="https://lottie.host/0bce2892-f33a-4e03-8723-084484b362c7/sDnHjQ79oG.json" as="fetch"
+        type="application/json" crossorigin="anonymous">
+    <link rel="preload" href="https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json" as="fetch"
+        type="application/json" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+</head>
+
+
+<style>
+    .plans {
+        width: 100%;
+        user-select: none;
+        align-items: center;
+    }
+
+
+
+    .plan_info {
+        background-color: transparent;
+        color: var(--secondary);
+        font-weight: 500;
+        border: 1px solid var(--light);
+        padding: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .plan_info img {
+        max-width: 70px;
+    }
+
+    .plans input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+
+    }
+
+
+
+    /* Target the div and change its background when checkbox is checked */
+    .plans input[type="checkbox"]:checked~.plan_info {
+        border: 1px solid var(--primary);
+        /* color: var(--primary); */
+        background-color: #dce4ff;
+
+    }
+
+    /* When the checkbox is checked, change the whole div's color */
+    .plans input[type="checkbox"]:checked~label {
+        /* color: var(--primary); */
+    }
+
+    .plans input[type="checkbox"]:checked~.plan_info span {
+        background: transparent;
+    }
+
+
+
+    /* Ensure clicking on div toggles checkbox */
+    .plans input[type="checkbox"] {
+        position: block;
+        left: 20px;
+        display: none;
+    }
+
+    fieldset {
+        border: none;
+        ;
+    }
+
+    /* Loading Bar */
+    #loading_bar {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid var(--primary);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<body>
+    <main>
+        <section class="full_section">
+
+            <div class="page_info">
+                <img src="https://momscanteen.in/wp-content/uploads/2021/09/moms_canteen_logo.png" alt="" width="100px">
+                <h2>Select Your Meal Plans</h2>
+                <span>Hello Shubham,</span>
+                <span>Please Add Meal Plan to Your Account</span>
+            </div>
+        </section>
+        <section class="full_section">
+            <div class="form_container">
+                <form id="signup_form" action="#" onsubmit="submitForm(event)">
+                    <div>
+                        <style>
+                            .filter_container {
+                                padding: 10px 0px;
+                                border-radius: 5px;
+                                width: 100%;
+                                text-align: center;
+                            }
+
+                            .filter_title {
+                                font-size: 14px;
+                                font-weight: 500;
+                                color: var(--colorheading);
+                                text-align: center;
+                            }
+
+                            .filter_btn_options {
+                                width: max-content;
+                                padding: 5px 10px;
+                                text-align: center;
+                                cursor: pointer;
+                                transition: background-color 0.3s ease;
+                                color: var(--secondary);
+                                font-weight: 400;
+                                font-size: 12px;
+                                border: 1px solid var(--light);
+                                border-radius: 50px;
+                            }
+
+
+
+                            .filter_btn_options.selected {
+                                background-color: var(--primary);
+                                color: white;
+                            }
+                        </style>
+                        <div class="filter_container r-flex jut-sb ali-c gap-1">
+                            <div class="filter_title r-flex ali-c jut-c gap-05">
+                                <iconify-icon icon="mdi:filter-outline" height="14"></iconify-icon>
+                                <span>Filters</span>
+                            </div>
+                            <div class="r-flex jut-c ali-c gap-1 gap-05">
+                                <div class="filter_btn_options" value="all" id="filter_all">All</div>
+                                <div class="filter_btn_options" value="Veg" id="filter_veg">Veg</div>
+                                <div class="filter_btn_options" value="NonVeg" id="filter_nonveg">Non Veg</div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </div>
+
+            <div class="input_field_container">
+                <label for="meal_plans">Meal Plans</label>
+                <br>
+                <fieldset>
+                    <div class="c-flex ali-c gap-2" id="meal_plans_container">
+                        <!-- Meal Plans will be inserted here dynamically -->
+                    </div>
+                </fieldset>
+            </div>
+
+            <span class="input_desc pointer" onclick="contact_support()" id="manual_entry_desc">
+                You can Request Edits Via Contacting us on
+                <span style="text-decoration: underline;">Whatsapp</span>
+            </span>
+            <!-- Loading Bar -->
+            <div id="loading_bar" style="display: none;">
+                <div class="loader"></div>
+            </div>
+            <div class="input_field_container">
+                <button type="submit" class="submit_btn r-flex ali-c jut-c gap-1">Add Selected Meal Plans
+                    <iconify-icon icon="ooui:arrow-next-ltr" height="14"></iconify-icon>
+                </button>
+            </div>
+            </form>
+            </div>
+        </section>
+        <section class="full_section">
+            <div class="extra_btn_container">
+                <div class="c-flex ali-c">
+                    <hr style="width: 100%;">
+                    <span class="or_text">OR</span>
+                </div>
+                <button class="secondary_btn">Check Our Plans</button>
+            </div>
+            <div class="need_help_container">
+                <span>Need Help?</span>
+                <a href="#">Contact Us</a>
+            </div>
+        </section>
+    </main>
+    <div id="overlay" class="overlay">
+        <div class="overlay-content page_info">
+            <dotlottie-player id="lottiePlayer"
+                src="https://lottie.host/0bce2892-f33a-4e03-8723-084484b362c7/sDnHjQ79oG.json" background="transparent"
+                speed="1" style="width: 300px; height: 200px;" speed="2" loop autoplay></dotlottie-player>
+            <h3 id="overlay_title">Signing Up...</h3>
+            <br>
+            <span id="overlay_desc">Your Details are being checked.. </span>
+            <button id="overlay_btn" class="submit_btn" style="display: none;">Add Yor Meal Plan Now</button>
+            <!-- <button onclick="changeLottie()">Change Lottie</button> -->
+            <span id="closeOverlay">Close</span>
+        </div>
+    </div>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const plansWrapper = document.getElementById('meal_plans_container');
+        const zoneSelect = document.querySelector('.filter_btn_options');
+        const loadingBar = document.getElementById('loading_bar');
+
+        zoneSelect.value = 'all';
+        zoneSelect.classList.add('selected');
+
+        // Add event listeners to filter buttons
+        document.querySelectorAll('.filter_btn_options').forEach(button => {
+            button.addEventListener('click', function () {
+                const selectedValue = this.getAttribute('value');
+                document.querySelectorAll('.filter_btn_options').forEach(btn => {
+                    btn.classList.remove('selected'); // Remove previously applied class
+                });
+                this.classList.add('selected');
+
+                zoneSelect.value = selectedValue; // Update the select element
+                fetchPlans(); // Fetch plans based on the selected filter
+            });
+        });
+
+        // Function to display loading bar
+        function showLoading() {
+            loadingBar.style.display = 'flex';
+        }
+
+        // Function to hide loading bar
+        function hideLoading() {
+            loadingBar.style.display = 'none';
+        }
+
+        // Function to fetch plans with debugging
+        function fetchPlans() {
+            showLoading(); // Show loading bar before fetching data
+            fetch('https://momscanteen.imeals.in/php/plans.php')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Data fetched from server:", data); // Log the data to check
+                    hideLoading(); // Hide loading bar once data is fetched
+                    renderPlans(data);
+                })
+                .catch(error => {
+                    hideLoading(); // Hide loading if an error occurs
+                    console.error('Error fetching plans:', error);
+                });
+        }
+
+        // Function to render plans
+        function renderPlans(plans) {
+            const selectedType = zoneSelect.value;
+            plansWrapper.innerHTML = ''; // Clear existing plans
+
+            const filteredPlans = selectedType === 'all'
+                ? plans
+                : plans.filter(plan => plan.type === selectedType);
+
+            if (filteredPlans.length === 0) {
+                plansWrapper.innerHTML = '<p>No plans available.</p>';
+                return;
+            }
+
+            filteredPlans.forEach(plan => {
+                const planHTML = `
+                <div class="plans r-flex ali-c jut-c gap-1">
+                    <input class="plan_checkbox" type="checkbox" id="${plan.id}" name="meal_plans" value="${plan.id}">
+                    <label for="${plan.id}" class="plan_info r-flex ali-c jut-sb gap-1">
+                          <div class="c-flex gap-05">
+                            <span class="w6">${plan.name} - ${plan.type}</span>
+                            <span>${plan.frequency} ${plan.time}</span>
+                            <span>${plan.items}</span>
+                            <span class="w4">${plan.description}</span>
+                        </div>
+                        <div class="c-flex ali-c gap-1">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2771/2771401.pn" alt="">
+                            <span>₹${plan.price}/Meal</span>
+                        </div>
+                    </label>
+                </div>`;
+                plansWrapper.insertAdjacentHTML('beforeend', planHTML);
+            });
+        }
+
+        // Event listener for meal plan type filter
+        zoneSelect.addEventListener('change', function () {
+            fetchPlans();
+        });
+
+        // Initial fetch on page load
+        fetchPlans();
+    });
+
+</script>
+<script>
+    document.getElementById("closeOverlay").addEventListener("click", function () {
+        document.getElementById("overlay").style.display = "none"; // Hide the overlay
+        document.body.classList.remove('noscroll'); // Prevent background scrolling
+    });
+    // document.getElementById("overlay").style.display = "flex"; // Show the overlay
+    function changeLottie() {
+        const player = document.getElementById('lottiePlayer');
+        player.load("https://lottie.host/dcc2ef95-baa4-4c58-bc6c-96cd7ad39738/Q5JyZC9T9T.json");
+    }
+
+    function contact_support() {
+        const phoneNumber = '9253029002';
+        const message = 'Contact support.';
+        const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappLink, '_blank');
+    }
+
+</script>
+<script>
+    function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const selectedPlans = [];
+        const mealPlanCheckboxes = document.querySelectorAll('input[name="meal_plan"]:checked');
+
+        mealPlanCheckboxes.forEach(checkbox => {
+            selectedPlans.push(checkbox.value);
+        });
+
+        // Convert selected plans to JSON format
+        const data = JSON.stringify({
+            mealPlans: selectedPlans
+        });
+
+        // Show loading bar
+        document.getElementById("loading_bar").style.display = "block";
+
+        fetch('https://momscanteen.imeals.in/php/add_plans.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: data
+        })
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                // Hide loading bar
+                document.getElementById("loading_bar").style.display = "none";
+
+                // Show success alert with response
+                alert("Response: " + JSON.stringify(data));
+            })
+            .catch(error => {
+                // Hide loading bar
+                document.getElementById("loading_bar").style.display = "none";
+
+                // Show error alert
+                alert("Error: " + error.message);
+            })
+            .finally(() => {
+                // Alert that the request was sent
+                alert("Request sent!");
+            });
+    }
+</script>
+
+</html>
