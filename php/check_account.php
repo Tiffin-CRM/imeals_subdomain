@@ -8,7 +8,7 @@ function checkIfUserExists($email, $phone)
     // Database connection details
     $host = 'localhost';
     $dbname = 'u240376517_tiffin_simul';
-    $username = 'tiffin_simul';
+    $username = 'u240376517_tiffin_simul';
     $password = '1Alukidukankrenge@';
 
     try {
