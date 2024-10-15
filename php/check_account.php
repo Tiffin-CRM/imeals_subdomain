@@ -38,13 +38,22 @@ $input = file_get_contents('php://input');
 // Decode the JSON input
 $data = json_decode($input, true);
 
+
 // Ensure data is provided
 if (isset($data['email']) || isset($data['phone'])) {
-    $email = isset($data['email']) ? $data['email'] : null;
-    $phone = isset($data['phone']) ? $data['phone'] : null;
+    $email = isset($data['email']) ? filter_var($data['email'], FILTER_SANITIZE_EMAIL) : null;
+    $phone = isset($data['phone']) ? filter_var($data['phone'], FILTER_SANITIZE_STRING) : null;
 
     // Check if the user exists using email or phone
-    if (checkIfUserExists($email, $phone)) {
+    $userExists = checkIfUserExists($email, $phone);
+
+    if ($userExists === null) {
+        http_response_code(500);
+        $response = [
+            'error' => true,
+            'message' => 'An error occurred while checking user status.'
+        ];
+    } elseif ($userExists) {
         $response = [
             'usertype' => 'existing',
             'message' => 'User is already registered.'
@@ -56,12 +65,13 @@ if (isset($data['email']) || isset($data['phone'])) {
         ];
     }
 } else {
-    // Handle missing email or phone in the request
+    http_response_code(400);
     $response = [
         'error' => true,
         'message' => 'No email or phone provided.'
     ];
 }
+
 
 // Send the JSON response
 echo json_encode($response);
