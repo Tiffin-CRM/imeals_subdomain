@@ -16,7 +16,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Fetch meal plans from the database
-    $stmt = $pdo->query("SELECT id, type, name, items, price, frequency, time, description FROM order_templates");
+    $stmt = $pdo->query("SELECT id, type, template_name, items, price, frequency, time, description FROM order_templates");
 
     // Fetch all rows as an associative array
     $meal_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
