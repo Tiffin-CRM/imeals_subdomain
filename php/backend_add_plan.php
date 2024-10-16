@@ -30,7 +30,7 @@ try {
     // Fetch meal plan details based on template_id and vendor_id
     $stmt = $pdo->prepare("
      SELECT * FROM order_templates 
-     WHERE template_id = :template_id AND vendor_id = :vendor_id
+     WHERE id = :template_id AND vendor_id = :vendor_id
  ");
     $stmt->execute([':template_id' => $templateId, ':vendor_id' => $vendorId]);
     $mealPlan = $stmt->fetch(PDO::FETCH_ASSOC);
