@@ -9,25 +9,38 @@ function getReadableFrequency($frequency)
     $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     $frequencyArr = explode(',', $frequency);
     $activeDays = [];
+    $weekendDays = ['Sat', 'Sun'];
+    $weekendActive = false;
 
+    // Collect active days
     foreach ($frequencyArr as $index => $value) {
         if ($value == '1') {
             $activeDays[] = $days[$index];
+            if (in_array($days[$index], $weekendDays)) {
+                $weekendActive = true; // Check if any weekend day is active
+            }
         }
     }
 
+    // Handle various cases
     if (count($activeDays) == 7) {
-        return "Every Day";
+        return "Every Day"; // Active every day
     } elseif (count($activeDays) == 6 && !in_array('Sun', $activeDays)) {
-        return "Every Day Except Sunday";
+        return "Every Day Except Sunday"; // Active every day except Sunday
+    } elseif (count($activeDays) == 6 && !in_array('Sat', $activeDays)) {
+        return "Every Day Except Saturday"; // Active every day except Saturday
+    } elseif (count($activeDays) == 5 && $weekendActive) {
+        return "Every Day Excluding Weekend"; // Active every day except Saturday and Sunday
     } elseif (count($activeDays) == 1 && in_array('Sun', $activeDays)) {
-        return "On Sunday Only";
+        return "On Sunday Only"; // Only active on Sunday
     } elseif (count($activeDays) == 0) {
-        return "No Days Selected";
+        return "No Days Selected"; // No active days
     } else {
-        return "On " . implode(', ', $activeDays);
+        // General case for specific days
+        return "On " . implode(', ', $activeDays); // Example: "On Mon, Tue, Wed"
     }
 }
+
 
 // Database credentials
 $host = 'localhost';
