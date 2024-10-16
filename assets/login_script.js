@@ -15,7 +15,7 @@ function account_found() {
   );
   show_bottom_popup(
     "Account Found..Loging In",
-    "We are redirecting you to Login Page."
+    "We are redirecting you to Login Page. <a href='https://imeals.in/user.php'>Click here</a> if not redirected in 5 seconds."
   );
 }
 function account_not_found() {
@@ -127,7 +127,7 @@ function getOTP() {
           console.log(
             "OTP verification successful. Redirecting to logged-in page..."
           );
-          // window.location.href = "user.php";
+          // window.location.href = "https://imeals.in/user.php";
           document.getElementById("otp_error").style.display = "none";
           document.getElementById("phone_error").style.display = "none";
           document.getElementById("otp_hint").style.display = "initial";
