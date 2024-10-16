@@ -10,9 +10,8 @@ function getReadableFrequency($frequency)
     $availability = explode(',', $frequency);
 
     $availableDays = [];
-    $weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-    $weekendDays = ['Sat', 'Sun'];
 
+    // Collect available days based on the frequency
     foreach ($availability as $index => $value) {
         if ($value == '1') {
             $availableDays[] = $days[$index];
@@ -20,18 +19,20 @@ function getReadableFrequency($frequency)
     }
 
     // Determine readable frequency
-    if (count($availableDays) == 7) {
+    $countAvailable = count($availableDays);
+
+    if ($countAvailable == 7) {
         return "Every Day";
-    } elseif (count($availableDays) == 5 && count(array_intersect($availableDays, $weekdays)) == 5) {
+    } elseif ($countAvailable == 5 && $availableDays === ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']) {
         return "Weekdays Only"; // Only Mon-Fri
-    } elseif (count($availableDays) == 2 && count(array_intersect($availableDays, $weekendDays)) == 2) {
+    } elseif ($countAvailable == 2 && $availableDays === ['Sat', 'Sun']) {
         return "Weekends Only"; // Only Sat-Sun
-    } elseif (count($availableDays) == 6 && !in_array('Sun', $availableDays)) {
+    } elseif ($countAvailable == 6 && !in_array('Sun', $availableDays)) {
         return "Every Day Except Sunday"; // All days except Sunday
-    } elseif (count($availableDays) == 6 && !in_array('Sat', $availableDays)) {
+    } elseif ($countAvailable == 6 && !in_array('Sat', $availableDays)) {
         return "Every Day Except Saturday"; // All days except Saturday
-    } elseif (count($availableDays) > 0) {
-        return "On " . implode(', ', $availableDays);
+    } elseif ($countAvailable > 0) {
+        return "On " . implode(', ', $availableDays); // Show available days
     } else {
         return "No Availability"; // No days available
     }
