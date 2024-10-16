@@ -32,7 +32,7 @@ function getReadableFrequency($frequency)
     } elseif ($countAvailable == 6 && !in_array('Sat', $availableDays)) {
         return "Every Day Except Saturday"; // All days except Saturday
     } elseif ($countAvailable > 0) {
-        return "On Specific Days" //. implode(', ', $availableDays); // Show available days
+        return "On Specific Days"; //. implode(', ', $availableDays); // Show available days
     } else {
         return "No Availability"; // No days available
     }
