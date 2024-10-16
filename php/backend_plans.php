@@ -40,7 +40,7 @@ function getReadableFrequency($frequency)
 
 function getReadableVegStatus($is_veg)
 {
-    return $is_veg ? "Vegetarian" : "Non-Vegetarian";
+    return $is_veg ? "Veg" : "Non-Veg";
 }
 
 // Database credentials

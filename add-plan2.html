@@ -167,9 +167,12 @@
                                 <span>Filters</span>
                             </div>
                             <div class="r-flex jut-c ali-c gap-1 gap-05">
-                                <div class="filter_btn_options" value="all" id="filter_all">All</div>
-                                <div class="filter_btn_options" value="Veg" id="filter_veg">Veg</div>
-                                <div class="filter_btn_options" value="NonVeg" id="filter_nonveg">Non Veg</div>
+                                <div class="filter_btn_options" value="all" id="filter_all">All <span
+                                        class="count"></span></div>
+                                <div class="filter_btn_options" value="Veg" id="filter_veg">Veg <span
+                                        class="count"></span></div>
+                                <div class="filter_btn_options" value="Non-Veg" id="filter_nonveg">Non Veg <span
+                                        class="count"></span></div>
                             </div>
                         </div>
                     </div>
@@ -294,6 +297,9 @@
                 ? plans
                 : plans.filter(plan => plan.type === selectedType);
 
+            // Update filter counts
+            updateFilterCounts(plans);
+
             if (filteredPlans.length === 0) {
                 plansWrapper.innerHTML = '<p>No plans available.</p>';
                 return;
@@ -318,6 +324,17 @@
                 </div>`;
                 plansWrapper.insertAdjacentHTML('beforeend', planHTML);
             });
+        }
+
+        // Function to update filter counts
+        function updateFilterCounts(plans) {
+            const allCount = plans.length;
+            const vegCount = plans.filter(plan => plan.type === 'Veg').length;
+            const nonVegCount = plans.filter(plan => plan.type === 'Non-Veg').length;
+
+            document.querySelector('#filter_all .count').textContent = `(${allCount})`;
+            document.querySelector('#filter_veg .count').textContent = `(${vegCount})`;
+            document.querySelector('#filter_nonveg .count').textContent = `(${nonVegCount})`;
         }
 
         // Event listener for meal plan type filter
