@@ -16,19 +16,29 @@ function checkIfUserExists($email, $phone)
         $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Prepare and execute the query
-        $stmt = $pdo->prepare("SELECT * FROM clients WHERE email = :email OR phone = :phone");
-        $stmt->execute(['email' => $email, 'phone' => $phone]);
+        // Prepare and execute the query based on available data
+        if ($email && $phone) {
+            $stmt = $pdo->prepare("SELECT id, name, created_on, status FROM clients WHERE email = :email OR phone = :phone");
+            $stmt->execute(['email' => $email, 'phone' => $phone]);
+        } elseif ($email) {
+            $stmt = $pdo->prepare("SELECT id, name, created_on, status FROM clients WHERE email = :email");
+            $stmt->execute(['email' => $email]);
+        } elseif ($phone) {
+            $stmt = $pdo->prepare("SELECT id, name, created_on, status FROM clients WHERE phone = :phone");
+            $stmt->execute(['phone' => $phone]);
+        } else {
+            return false; // No valid data provided
+        }
 
         // Fetch the result
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Return true if a user is found, false otherwise
-        return $result !== false;
+        // Return result if a user is found, false otherwise
+        return $result !== false ? $result : false;
     } catch (PDOException $e) {
         // Log the error (in a real-world scenario, use proper error logging)
         error_log("Database Error: " . $e->getMessage());
-        return false;
+        return null;
     }
 }
 
@@ -38,25 +48,33 @@ $input = file_get_contents('php://input');
 // Decode the JSON input
 $data = json_decode($input, true);
 
-
 // Ensure data is provided
 if (isset($data['email']) || isset($data['phone'])) {
     $email = isset($data['email']) ? filter_var($data['email'], FILTER_SANITIZE_EMAIL) : null;
     $phone = isset($data['phone']) ? filter_var($data['phone'], FILTER_SANITIZE_STRING) : null;
 
     // Check if the user exists using email or phone
-    $userExists = checkIfUserExists($email, $phone);
+    $user = checkIfUserExists($email, $phone);
 
-    if ($userExists === null) {
+    if ($user === null) {
         http_response_code(500);
         $response = [
             'error' => true,
             'message' => 'An error occurred while checking user status.'
         ];
-    } elseif ($userExists) {
+    } elseif ($user) {
+        // Set cookie for root domain
+        setcookie("customer_id", $user['id'], time() + (86400 * 30), "/", ".imeals.in", true, true); // Cookie lasts for 30 days
+
+        // Include created_on, name, and status in the response
         $response = [
             'usertype' => 'existing',
-            'message' => 'User is already registered.'
+            'message' => 'User is already registered.',
+            'data' => [
+                'name' => $user['name'],
+                'created_on' => $user['created_on'],
+                'status' => $user['status']
+            ]
         ];
     } else {
         $response = [
@@ -71,7 +89,6 @@ if (isset($data['email']) || isset($data['phone'])) {
         'message' => 'No email or phone provided.'
     ];
 }
-
 
 // Send the JSON response
 echo json_encode($response);
