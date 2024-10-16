@@ -340,11 +340,6 @@
             document.querySelector('#filter_nonveg .count').textContent = `(${nonVegCount})`;
         }
 
-        // Event listener for meal plan type filter
-        zoneSelect.addEventListener('change', function () {
-            fetchPlans();
-        });
-
         // Initial fetch on page load
         fetchPlans();
     });
