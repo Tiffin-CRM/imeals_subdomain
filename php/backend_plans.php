@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 function getReadableFrequency($frequency)
 {
-    $days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     $availability = explode(',', $frequency);
 
     $availableDays = [];
