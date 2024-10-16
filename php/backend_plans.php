@@ -38,6 +38,11 @@ function getReadableFrequency($frequency)
     }
 }
 
+function getReadableVegStatus($is_veg)
+{
+    return $is_veg ? "Vegetarian" : "Non-Vegetarian";
+}
+
 // Database credentials
 $host = 'localhost';
 $dbname = 'u240376517_tiffin_simul';
@@ -56,8 +61,9 @@ try {
     $meal_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Convert frequency to readable format
-    foreach ($meal_plans as &$plan) {
-        $plan['readable_frequency'] = getReadableFrequency($plan['frequency']);
+    foreach ($meal_plans as &$meal_plan) {
+        $meal_plan['readable_frequency'] = getReadableFrequency($meal_plan['frequency']);
+        $meal_plan['veg_status'] = getReadableVegStatus($meal_plan['is_veg']); // Add readable veg status
     }
     // Return data as JSON
     echo json_encode($meal_plans);
