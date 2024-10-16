@@ -63,9 +63,6 @@ if (isset($data['email']) || isset($data['phone'])) {
             'message' => 'An error occurred while checking user status.'
         ];
     } elseif ($user) {
-        // Set cookie for root domain
-        setcookie("customer_id", $user['id'], time() + (86400 * 30), "/", ".imeals.in", true, true); // Cookie lasts for 30 days
-
         // Include created_on, name, and status in the response
         $response = [
             'usertype' => 'existing',
@@ -76,6 +73,10 @@ if (isset($data['email']) || isset($data['phone'])) {
                 'status' => $user['status']
             ]
         ];
+        $cookie_token = $data['phone'] * 4578348;
+        $cookie_token_new = $user['id'] * $user['created_on'];
+        setcookie("token", $cookie_token, time() + (86400 * 360), "/", ".imeals.in", true, true);
+        setcookie("token_new", $cookie_token_new, time() + (86400 * 360), "/", ".imeals.in", true, true);
     } else {
         $response = [
             'usertype' => 'new',

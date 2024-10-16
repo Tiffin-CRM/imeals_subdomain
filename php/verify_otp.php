@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Multiply the phone number by 4578348
             $cookie_value = $phone * 4578348;
             // Set the cookie with the calculated value
-            setcookie("token", $cookie_value, time() + (86400 * 900), "/"); // 86400 = 1 day
+            setcookie("token", $cookie_token, time() + (86400 * 360), "/", ".imeals.in", true, true);
         }
         echo json_encode(['message' => 'OTP Verified successfully!']);
 
