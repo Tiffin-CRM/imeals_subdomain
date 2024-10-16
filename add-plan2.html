@@ -267,7 +267,7 @@
         // Function to fetch plans with debugging
         function fetchPlans() {
             showLoading(); // Show loading bar before fetching data
-            fetch('https://momscanteen.imeals.in/php/plans.php')
+            fetch('https://momscanteen.imeals.in/php/backend_plans.php')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -306,7 +306,7 @@
                     <label for="${plan.id}" class="plan_info r-flex ali-c jut-sb gap-1">
                           <div class="c-flex gap-05">
                             <span class="w6">${plan.name} - ${plan.type}</span>
-                            <span>${plan.frequency} ${plan.time}</span>
+                            <span>${plan.readable_frequency} ${plan.time}</span>
                             <span>${plan.items}</span>
                             <span class="w4">${plan.description}</span>
                         </div>
