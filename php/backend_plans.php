@@ -4,20 +4,23 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
-function getReadableFrequency($frequency)
+function getReadabledays($frequency)
 {
     $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     $availability = explode(',', $frequency);
-
     $availableDays = [];
 
-    // Collect available days based on the frequency
     foreach ($availability as $index => $value) {
         if ($value == '1') {
             $availableDays[] = $days[$index];
         }
     }
+    return $availableDays; // Add this line to return the array
+}
 
+function getReadableFrequency($frequency)
+{
+    $availableDays = getReadabledays($frequency);
     // Determine readable frequency
     $countAvailable = count($availableDays);
 
@@ -63,7 +66,8 @@ try {
     // Convert frequency to readable format
     foreach ($meal_plans as &$meal_plan) {
         $meal_plan['readable_frequency'] = getReadableFrequency($meal_plan['frequency']);
-        $meal_plan['type'] = getReadableVegStatus($meal_plan['is_veg']); // Add readable veg status
+        $meal_plan['frequency'] = getReadabledays($meal_plan['frequency']);
+        $meal_plan['type'] = getReadableVegStatus($meal_plan['is_veg']);
     }
     // Return data as JSON
     echo json_encode($meal_plans);
