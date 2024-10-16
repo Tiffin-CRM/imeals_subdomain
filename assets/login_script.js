@@ -15,7 +15,7 @@ function account_found() {
   );
   show_bottom_popup(
     "Account Found..Loging In",
-    "We are redirecting you to Login Page. <a href='https://imeals.in/user.php'>Click here</a> if not redirected in 5 seconds."
+    "We are redirecting you to Login Page. Visit https://imeals.in/user.php if not redirected in 5 seconds."
   );
 }
 function account_not_found() {
