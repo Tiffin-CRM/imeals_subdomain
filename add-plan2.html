@@ -368,30 +368,43 @@
     function submitForm(event) {
         event.preventDefault(); // Prevent default form submission
 
+        console.log("Form submission started");
+
         const selectedPlans = [];
-        const mealPlanCheckboxes = document.querySelectorAll('input[name="meal_plan"]:checked');
+        const mealPlanCheckboxes = document.querySelectorAll('input[name="meal_plans"]:checked');
+
+        console.log("Number of checked checkboxes:", mealPlanCheckboxes.length);
 
         mealPlanCheckboxes.forEach(checkbox => {
             selectedPlans.push(checkbox.value);
+            console.log("Added plan:", checkbox.value);
         });
+
+        console.log("Selected plans:", selectedPlans);
 
         // Convert selected plans to JSON format
         const data = JSON.stringify({
             mealPlans: selectedPlans
         });
 
+        console.log("Data to be sent:", data);
+
         // Show loading bar
         document.getElementById("loading_bar").style.display = "block";
 
-        fetch('https://momscanteen.imeals.in/php/backend_add_plan.php', {
+        fetch('https://webhook.site/2d171683-6c69-47e6-9949-c2a0aeb378e4', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: data
         })
-            .then(response => response.json()) // Parse JSON response
+            .then(response => {
+                console.log("Response status:", response.status);
+                return response.json();
+            })
             .then(data => {
+                console.log("Response data:", data);
                 // Hide loading bar
                 document.getElementById("loading_bar").style.display = "none";
 
@@ -399,6 +412,7 @@
                 alert("Response: " + JSON.stringify(data));
             })
             .catch(error => {
+                console.error("Error:", error);
                 // Hide loading bar
                 document.getElementById("loading_bar").style.display = "none";
 
@@ -407,9 +421,12 @@
             })
             .finally(() => {
                 // Alert that the request was sent
-                alert("Request sent!");
+                alert("Request sent! Selected plans: " + selectedPlans.join(', '));
             });
     }
+
+    // Add this line to check if the script is loaded
+    console.log("Script loaded");
 </script>
 
 </html>
