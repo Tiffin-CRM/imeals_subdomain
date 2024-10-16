@@ -4,41 +4,38 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
-// Function to get readable frequency
 function getReadableFrequency($frequency)
 {
-    $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    $frequencyArr = explode(',', $frequency);
-    $activeDays = [];
-    $weekendDays = ['Sat', 'Sun'];
-    $weekendActive = false;
+    $days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    $availability = explode(',', $frequency);
 
-    foreach ($frequencyArr as $index => $value) {
+    $availableDays = [];
+    $weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    $weekendDays = ['Sat', 'Sun'];
+
+    foreach ($availability as $index => $value) {
         if ($value == '1') {
-            $activeDays[] = $days[$index];
-            if (in_array($days[$index], $weekendDays)) {
-                $weekendActive = true; // Check if any weekend day is active
-            }
+            $availableDays[] = $days[$index];
         }
     }
 
-    if (count($activeDays) == 7) {
-        return "Every Day"; // Active every day
-    } elseif (count($activeDays) == 6 && !in_array('Sun', $activeDays)) {
-        return "Every Day Except Sunday"; // Active every day except Sunday
-    } elseif (count($activeDays) == 6 && !in_array('Sat', $activeDays)) {
-        return "Every Day Except Saturday"; // Active every day except Saturday
-    } elseif (count($activeDays) == 5 && $weekendActive) {
-        return "Every Day Excluding Weekend"; // Active every day except Saturday and Sunday
-    } elseif (count($activeDays) == 1 && in_array('Sun', $activeDays)) {
-        return "On Sunday Only"; // Only active on Sunday
-    } elseif (count($activeDays) == 0) {
-        return "No Days Selected"; // No active days
+    // Determine readable frequency
+    if (count($availableDays) == 7) {
+        return "Every Day";
+    } elseif (count($availableDays) == 5 && count(array_intersect($availableDays, $weekdays)) == 5) {
+        return "Weekdays Only"; // Only Mon-Fri
+    } elseif (count($availableDays) == 2 && count(array_intersect($availableDays, $weekendDays)) == 2) {
+        return "Weekends Only"; // Only Sat-Sun
+    } elseif (count($availableDays) == 6 && !in_array('Sun', $availableDays)) {
+        return "Every Day Except Sunday"; // All days except Sunday
+    } elseif (count($availableDays) == 6 && !in_array('Sat', $availableDays)) {
+        return "Every Day Except Saturday"; // All days except Saturday
+    } elseif (count($availableDays) > 0) {
+        return "On " . implode(', ', $availableDays);
     } else {
-        return "On " . implode(', ', $activeDays); // Example: "On Mon, Tue, Wed"
+        return "No Availability"; // No days available
     }
 }
-
 
 // Database credentials
 $host = 'localhost';
