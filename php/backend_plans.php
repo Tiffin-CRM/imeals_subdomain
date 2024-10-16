@@ -55,7 +55,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Fetch meal plans from the database
-    $stmt = $pdo->query("SELECT id, is_veg as type, template_name as name, items, price, frequency, time, description FROM order_templates");
+    $stmt = $pdo->query("SELECT id, is_veg, template_name as name, items, price, frequency, time, description FROM order_templates");
 
     // Fetch all rows as an associative array
     $meal_plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -63,7 +63,7 @@ try {
     // Convert frequency to readable format
     foreach ($meal_plans as &$meal_plan) {
         $meal_plan['readable_frequency'] = getReadableFrequency($meal_plan['frequency']);
-        $meal_plan['veg_status'] = getReadableVegStatus($meal_plan['is_veg']); // Add readable veg status
+        $meal_plan['type'] = getReadableVegStatus($meal_plan['is_veg']); // Add readable veg status
     }
     // Return data as JSON
     echo json_encode($meal_plans);
