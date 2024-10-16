@@ -1,22 +1,8 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type");
-
-// Database connection parameters
-$host = 'localhost'; // Change this if your database is hosted elsewhere
-$dbname = 'u240376517_tiffin_simul';
-$username = 'u240376517_tiffin_simul';
-$password = '1Alukidukankrenge@';
+// ... existing code ...
 
 try {
-    // Create a PDO instance (connect to the database)
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Get the raw POST data
-    $json = file_get_contents('php://input');
-    $data = json_decode($json, true);
+    // ... existing code ...
 
     $mealPlans = $data['selectedPlans'] ?? null;
     $clientId = $data['client_id'] ?? '1'; // Default to 1 if not provided
@@ -29,40 +15,40 @@ try {
 
     // Prepare the SQL INSERT statement for the orders table
     $insertStmt = $pdo->prepare("
-         INSERT INTO orders (
-             client_id, 
-             template_id, 
-             time, 
-             is_veg, 
-             frequency, 
-             price, 
-             items, 
-             is_active, 
-             approved, 
-             type, 
-             created_on
-         ) VALUES (
-             :client_id, 
-             :template_id, 
-             :time, 
-             :is_veg, 
-             :frequency, 
-             :price, 
-             :items, 
-             :is_active, 
-             :approved, 
-             :type, 
-             NOW()
-         )
-     ");
+     INSERT INTO orders (
+         client_id, 
+         template_id, 
+         time, 
+         is_veg, 
+         frequency, 
+         price, 
+         items, 
+         is_active, 
+         approved, 
+         type, 
+         created_on
+     ) VALUES (
+         :client_id, 
+         :template_id, 
+         :time, 
+         :is_veg, 
+         :frequency, 
+         :price, 
+         :items, 
+         :is_active, 
+         :approved, 
+         :type, 
+         NOW()
+     )
+ ");
 
     // Loop through each selected meal plan
     foreach ($mealPlans as $templateId) {
         // Fetch meal plan details based on template_id and vendor_id
         $stmt = $pdo->prepare("
-                SELECT * FROM order_templates 
-                WHERE id = :template_id AND vendor_id = :vendor_id
-            ");
+            SELECT * FROM order_templates 
+            WHERE id = :template_id AND vendor_id = :vendor_id
+        ");
         $stmt->execute([':template_id' => $templateId, ':vendor_id' => $vendorId]);
         $mealPlan = $stmt->fetch(PDO::FETCH_ASSOC);
 
