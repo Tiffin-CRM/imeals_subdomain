@@ -4,6 +4,7 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 
+// Function to get readable frequency
 function getReadableFrequency($frequency)
 {
     $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -12,7 +13,6 @@ function getReadableFrequency($frequency)
     $weekendDays = ['Sat', 'Sun'];
     $weekendActive = false;
 
-    // Collect active days
     foreach ($frequencyArr as $index => $value) {
         if ($value == '1') {
             $activeDays[] = $days[$index];
@@ -22,7 +22,6 @@ function getReadableFrequency($frequency)
         }
     }
 
-    // Handle various cases
     if (count($activeDays) == 7) {
         return "Every Day"; // Active every day
     } elseif (count($activeDays) == 6 && !in_array('Sun', $activeDays)) {
@@ -36,7 +35,6 @@ function getReadableFrequency($frequency)
     } elseif (count($activeDays) == 0) {
         return "No Days Selected"; // No active days
     } else {
-        // General case for specific days
         return "On " . implode(', ', $activeDays); // Example: "On Mon, Tue, Wed"
     }
 }
